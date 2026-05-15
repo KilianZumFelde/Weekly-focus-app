@@ -1,0 +1,54 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+out/
+
+# Environment variables (never commit real credentials)
+.env
+.env.local
+.env.*.local
+
+# Expo / React Native
+.expo/
+.expo-shared/
+android/
+ios/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+
+# EAS
+eas.json
+
+# Drizzle migrations snapshots (keep migrations, not meta only)
+# api/src/db/migrations/meta/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test coverage
+coverage/
+
+# TypeScript
+*.tsbuildinfo
+
+# Local credentials notes (never commit)
+CREDENTIALS.md
