@@ -1,4 +1,4 @@
-import { eq, and } from 'drizzle-orm';
+import { eq, and, inArray } from 'drizzle-orm';
 import { db } from '../db/index.js';
 import { habits, habitWeekRecords } from '../db/schema.js';
 import type { CreateHabitBody, PatchHabitBody } from '@shared/types';
@@ -39,7 +39,7 @@ export async function getHabits(userId: string) {
   const rows = await db
     .select()
     .from(habits)
-    .where(and(eq(habits.userId, userId), eq(habits.status, 'active')));
+    .where(and(eq(habits.userId, userId), inArray(habits.status, ['active', 'paused'])));
 
   const results = await Promise.all(
     rows.map(async (habit) => {

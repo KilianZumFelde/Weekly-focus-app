@@ -21,13 +21,7 @@
     },
     "plugins": [
       "expo-router",
-      "expo-notifications",
-      [
-        "@react-native-voice/voice",
-        {
-          "microphonePermission": "Allow Weekly Focus to access your microphone for voice capture."
-        }
-      ]
+      "expo-notifications"
     ],
     "experiments": {
       "typedRoutes": true

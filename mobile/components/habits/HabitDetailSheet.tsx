@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Modal, View, Text, TextInput, TouchableOpacity,
-  ScrollView, StyleSheet, Alert,
+  Switch, StyleSheet, Alert,
 } from 'react-native';
 import type { Habit } from '@shared/types';
 
@@ -16,12 +16,21 @@ interface Props {
 }
 
 export function HabitDetailSheet({ habit, visible, onClose, onSave, onPause, onResume, onDelete }: Props) {
-  const [title, setTitle] = useState(habit?.title ?? '');
-  const [target, setTarget] = useState(habit?.weeklyTarget ?? 3);
+  const [title, setTitle] = useState('');
+  const [target, setTarget] = useState(3);
+
+  useEffect(() => {
+    if (habit) {
+      setTitle(habit.title);
+      setTarget(habit.weeklyTarget);
+    }
+  }, [habit?.id]);
 
   if (!habit) return null;
 
-  const handleSave = () => {
+  const isPaused = habit.status === 'paused';
+
+  const handleClose = () => {
     onSave(habit.id, { title, weeklyTarget: target });
     onClose();
   };
@@ -37,106 +46,163 @@ export function HabitDetailSheet({ habit, visible, onClose, onSave, onPause, onR
     );
   };
 
-  return (
-    <Modal visible={visible} animationType="slide" presentationStyle="pageSheet" onRequestClose={onClose}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={onClose}><Text style={styles.cancel}>Cancel</Text></TouchableOpacity>
-          <Text style={styles.heading}>Habit</Text>
-          <TouchableOpacity onPress={handleSave}><Text style={styles.save}>Save</Text></TouchableOpacity>
-        </View>
+  const togglePause = () => {
+    if (isPaused) {
+      onResume(habit.id);
+    } else {
+      onPause(habit.id);
+    }
+  };
 
-        <ScrollView style={styles.body}>
+  return (
+    <Modal visible={visible} transparent animationType="slide" onRequestClose={handleClose}>
+      <View style={styles.overlay}>
+        <TouchableOpacity style={styles.scrim} onPress={handleClose} activeOpacity={1} />
+
+        <View style={styles.sheet}>
+          {/* Grab handle */}
+          <View style={styles.handleWrap}>
+            <View style={styles.handle} />
+          </View>
+
+          {/* Editable title */}
           <TextInput
             style={styles.titleInput}
             value={title}
             onChangeText={setTitle}
             placeholder="Habit title"
-            placeholderTextColor="#6B6B6B"
+            placeholderTextColor="#56423E"
+            multiline
           />
 
-          <Text style={styles.label}>Weekly target</Text>
-          <View style={styles.stepper}>
-            <TouchableOpacity style={styles.stepBtn} onPress={() => setTarget(Math.max(1, target - 1))}>
-              <Text style={styles.stepBtnText}>−</Text>
-            </TouchableOpacity>
-            <Text style={styles.stepValue}>{target}×</Text>
-            <TouchableOpacity style={styles.stepBtn} onPress={() => setTarget(Math.min(7, target + 1))}>
-              <Text style={styles.stepBtnText}>+</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.streaks}>
-            <View style={styles.streakItem}>
-              <Text style={styles.streakValue}>{habit.currentStreak}</Text>
-              <Text style={styles.streakLabel}>Current streak</Text>
-            </View>
-            <View style={styles.streakDivider} />
-            <View style={styles.streakItem}>
-              <Text style={styles.streakValue}>{habit.bestEverStreak}</Text>
-              <Text style={styles.streakLabel}>Best ever</Text>
+          {/* Target stepper row */}
+          <View style={styles.stepperRow}>
+            <Text style={styles.stepperLabel}>{target} per week</Text>
+            <View style={styles.stepperControl}>
+              <TouchableOpacity
+                style={styles.stepBtn}
+                onPress={() => setTarget((v) => Math.max(1, v - 1))}
+              >
+                <Text style={styles.stepBtnText}>−</Text>
+              </TouchableOpacity>
+              <Text style={styles.stepCount}>{target}</Text>
+              <TouchableOpacity
+                style={styles.stepBtn}
+                onPress={() => setTarget((v) => Math.min(7, v + 1))}
+              >
+                <Text style={styles.stepBtnText}>+</Text>
+              </TouchableOpacity>
             </View>
           </View>
 
-          <View style={styles.actions}>
-            <TouchableOpacity
-              style={styles.actionBtn}
-              onPress={() => {
-                habit.status === 'active' ? onPause(habit.id) : onResume(habit.id);
-                onClose();
-              }}
-            >
-              <Text style={styles.actionText}>
-                {habit.status === 'active' ? 'Pause habit' : 'Resume habit'}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.actionBtn, styles.deleteBtn]} onPress={handleDelete}>
-              <Text style={styles.deleteText}>Delete habit</Text>
+          {/* Streak — visual centerpiece */}
+          <View style={styles.streakBlock}>
+            <View style={styles.streakMain}>
+              <Text style={styles.streakNumber}>{habit.currentStreak}</Text>
+              <Text style={styles.streakWeeks}>weeks</Text>
+            </View>
+            <View style={styles.streakMeta}>
+              <Text style={styles.streakMetaText}>Current Streak</Text>
+              <View style={styles.streakDot} />
+              <Text style={styles.streakBest}>Best: {habit.bestEverStreak}</Text>
+            </View>
+          </View>
+
+          <View style={styles.divider} />
+
+          {/* Action row */}
+          <View style={styles.actionsRow}>
+            <View style={styles.pauseRow}>
+              <Text style={styles.pauseLabel}>Pause Habit</Text>
+              <Switch
+                value={isPaused}
+                onValueChange={togglePause}
+                trackColor={{ false: '#373432', true: '#BF5B45' }}
+                thumbColor={isPaused ? '#E7E1DE' : '#A48B86'}
+              />
+            </View>
+            <TouchableOpacity onPress={handleDelete}>
+              <Text style={styles.deleteText}>Delete</Text>
             </TouchableOpacity>
           </View>
-        </ScrollView>
+        </View>
       </View>
     </Modal>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#121212' },
-  header: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    padding: 16, borderBottomWidth: 1, borderBottomColor: '#2A2A2A',
+  overlay: { flex: 1, justifyContent: 'flex-end' },
+  scrim: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(21,19,17,0.7)' },
+  sheet: {
+    backgroundColor: '#1D1B19',
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+    paddingBottom: 44,
+    borderTopWidth: 1,
+    borderColor: 'rgba(255,255,255,0.05)',
   },
-  cancel: { color: '#6B6B6B', fontSize: 16 },
-  heading: { color: '#F5F0E8', fontSize: 17, fontWeight: '600' },
-  save: { color: '#BF5B45', fontSize: 16, fontWeight: '600' },
-  body: { flex: 1, padding: 16 },
+  handleWrap: { alignItems: 'center', paddingTop: 12, paddingBottom: 24 },
+  handle: { width: 40, height: 4, backgroundColor: 'rgba(164,139,134,0.3)', borderRadius: 2 },
   titleInput: {
-    color: '#F5F0E8', fontSize: 20, fontWeight: '600',
-    borderBottomWidth: 1, borderBottomColor: '#2A2A2A',
-    paddingBottom: 12, marginBottom: 24,
+    color: '#E7E1DE',
+    fontSize: 26,
+    fontWeight: '600',
+    paddingHorizontal: 24,
+    paddingBottom: 8,
+    minHeight: 40,
   },
-  label: { color: '#6B6B6B', fontSize: 12, marginBottom: 12 },
-  stepper: { flexDirection: 'row', alignItems: 'center', gap: 16, marginBottom: 32 },
+  stepperRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+  },
+  stepperLabel: { color: '#A48B86', fontSize: 16 },
+  stepperControl: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#2C2927',
+    borderRadius: 999,
+    paddingHorizontal: 6,
+    paddingVertical: 4,
+    gap: 4,
+  },
   stepBtn: {
-    width: 40, height: 40, borderRadius: 20,
-    backgroundColor: '#2A2A2A', alignItems: 'center', justifyContent: 'center',
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  stepBtnText: { color: '#F5F0E8', fontSize: 20, lineHeight: 24 },
-  stepValue: { color: '#F5F0E8', fontSize: 24, fontWeight: '600', minWidth: 40, textAlign: 'center' },
-  streaks: {
-    flexDirection: 'row', backgroundColor: '#1A1A1A',
-    borderRadius: 12, padding: 20, marginBottom: 32, alignItems: 'center',
+  stepBtnText: { color: '#A48B86', fontSize: 20, lineHeight: 24 },
+  stepCount: { color: '#E7E1DE', fontSize: 16, fontWeight: '600', minWidth: 24, textAlign: 'center' },
+  streakBlock: {
+    marginHorizontal: 24,
+    marginVertical: 8,
+    paddingVertical: 28,
+    paddingHorizontal: 24,
+    borderRadius: 20,
+    backgroundColor: 'rgba(55,52,50,0.3)',
+    alignItems: 'center',
+    gap: 8,
   },
-  streakItem: { flex: 1, alignItems: 'center' },
-  streakValue: { color: '#F5F0E8', fontSize: 28, fontWeight: '700' },
-  streakLabel: { color: '#6B6B6B', fontSize: 12, marginTop: 4 },
-  streakDivider: { width: 1, height: 40, backgroundColor: '#2A2A2A' },
-  actions: { gap: 12 },
-  actionBtn: {
-    padding: 14, borderRadius: 8, borderWidth: 1,
-    borderColor: '#2A2A2A', alignItems: 'center',
+  streakMain: { flexDirection: 'row', alignItems: 'baseline', gap: 10 },
+  streakNumber: { color: '#BF5B45', fontSize: 56, fontWeight: '600', lineHeight: 64 },
+  streakWeeks: { color: '#A48B86', fontSize: 22, fontWeight: '500' },
+  streakMeta: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  streakMetaText: { color: '#A48B86', fontSize: 12, fontWeight: '500', textTransform: 'uppercase', letterSpacing: 1 },
+  streakDot: { width: 4, height: 4, borderRadius: 2, backgroundColor: '#56423E' },
+  streakBest: { color: '#E9C176', fontSize: 12, fontWeight: '500' },
+  divider: { height: 1, backgroundColor: 'rgba(164,139,134,0.15)', marginHorizontal: 24, marginVertical: 20 },
+  actionsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
   },
-  actionText: { color: '#F5F0E8', fontSize: 15 },
-  deleteBtn: { borderColor: '#7A2A1A' },
-  deleteText: { color: '#BF5B45', fontSize: 15 },
+  pauseRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  pauseLabel: { color: '#A48B86', fontSize: 14 },
+  deleteText: { color: '#BF5B45', fontSize: 14 },
 });
