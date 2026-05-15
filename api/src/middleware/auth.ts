@@ -49,6 +49,6 @@ export const authMiddleware = createMiddleware<{ Variables: AuthVariables }>(
       await seedDefaultThemes(userId);
     }
 
-    await next();
+    return next();
   },
 );
