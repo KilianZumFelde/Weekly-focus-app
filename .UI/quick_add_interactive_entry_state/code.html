@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .scrim-overlay {
+            background-color: rgba(16, 14, 12, 0.85);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "tertiary-container": "#af8b47",
+                      "outline-variant": "#56423e",
+                      "outline": "#a48b86",
+                      "surface-container-lowest": "#100e0c",
+                      "on-background": "#e7e1de",
+                      "surface-tint": "#ffb4a4",
+                      "primary": "#ffb4a4",
+                      "on-secondary": "#2b331e",
+                      "surface-variant": "#373432",
+                      "on-tertiary": "#412d00",
+                      "background": "#151311",
+                      "on-error": "#690005",
+                      "primary-container": "#dd725a",
+                      "tertiary": "#e9c176",
+                      "surface-dim": "#151311",
+                      "secondary-container": "#434c35",
+                      "primary-fixed": "#ffdad3",
+                      "on-tertiary-fixed-variant": "#5d4201",
+                      "on-primary-container": "#560d01",
+                      "on-primary": "#5f1505",
+                      "secondary": "#c0caac",
+                      "on-secondary-fixed": "#161e0a",
+                      "surface-container-highest": "#373432",
+                      "error": "#ffb4ab",
+                      "inverse-surface": "#e7e1de",
+                      "secondary-fixed-dim": "#c0caac",
+                      "on-tertiary-container": "#382700",
+                      "primary-fixed-dim": "#ffb4a4",
+                      "tertiary-fixed-dim": "#e9c176",
+                      "on-secondary-container": "#b2bc9e",
+                      "inverse-on-surface": "#32302e",
+                      "surface": "#151311",
+                      "surface-container-low": "#1d1b19",
+                      "on-secondary-fixed-variant": "#414a33",
+                      "on-error-container": "#ffdad6",
+                      "tertiary-fixed": "#ffdea5",
+                      "on-primary-fixed-variant": "#7e2b19",
+                      "inverse-primary": "#9d422e",
+                      "on-tertiary-fixed": "#261900",
+                      "on-surface-variant": "#dcc0bb",
+                      "error-container": "#93000a",
+                      "surface-bright": "#3b3936",
+                      "on-primary-fixed": "#3d0500",
+                      "secondary-fixed": "#dce7c7",
+                      "surface-container-high": "#2c2927",
+                      "surface-container": "#211f1d",
+                      "on-surface": "#e7e1de"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "stack-lg": "32px",
+                      "stack-md": "16px",
+                      "unit": "4px",
+                      "gutter-mobile": "16px",
+                      "margin-mobile": "24px",
+                      "stack-sm": "8px"
+              },
+              "fontFamily": {
+                      "headline-md": ["Newsreader"],
+                      "numbers": ["Inter"],
+                      "display": ["Newsreader"],
+                      "label-md": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-lg": ["Newsreader"],
+                      "body-lg": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                      "numbers": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "display": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "500"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+              }
+            },
+          },
+        }
+      </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen relative overflow-hidden">
+<!-- Background Content (This Week Home Screen) -->
+<div class="fixed inset-0 z-0">
+<header class="flex justify-between items-center px-margin-mobile py-stack-md w-full sticky top-0 bg-background">
+<h1 class="font-display text-display text-on-background">Journal</h1>
+<div class="flex items-center space-x-stack-md">
+<span class="material-symbols-outlined text-primary">menu</span>
+<span class="material-symbols-outlined text-on-surface-variant">settings</span>
+</div>
+</header>
+<main class="px-margin-mobile pt-stack-lg">
+<h2 class="font-headline-lg text-headline-lg mb-stack-md text-primary">This Week</h2>
+<div class="grid grid-cols-1 gap-stack-md">
+<div class="bg-surface-container rounded-xl p-stack-md">
+<div class="flex items-center gap-stack-sm mb-unit">
+<span class="material-symbols-outlined text-secondary text-[18px]">calendar_today</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Monday, Oct 24</span>
+</div>
+<p class="font-headline-md text-headline-md">Review track list for vinyl release</p>
+</div>
+<div class="bg-surface-container rounded-xl p-stack-md">
+<div class="flex items-center gap-stack-sm mb-unit">
+<span class="material-symbols-outlined text-secondary text-[18px]">mic</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Tuesday, Oct 25</span>
+</div>
+<p class="font-headline-md text-headline-md">Practice transition from deep house to techno</p>
+</div>
+<div class="bg-surface-container rounded-xl p-stack-md">
+<div class="flex items-center gap-stack-sm mb-unit">
+<span class="material-symbols-outlined text-secondary text-[18px]">bolt</span>
+<span class="font-label-md text-label-md text-on-surface-variant">Wednesday, Oct 26</span>
+</div>
+<p class="font-headline-md text-headline-md">Order new cables for the studio</p>
+</div>
+</div>
+</main>
+</div>
+<!-- Scrim Overlay -->
+<div class="fixed inset-0 z-10 scrim-overlay transition-opacity duration-300"></div>
+<!-- Bottom Sheet -->
+<div class="fixed inset-x-0 bottom-0 z-20 bg-surface-dim rounded-t-[32px] shadow-2xl flex flex-col max-h-[795px]">
+<!-- Grab Handle -->
+<div class="flex justify-center py-stack-md">
+<div class="w-12 h-1 rounded-full bg-outline-variant/30"></div>
+</div>
+<!-- Sheet Content -->
+<div class="px-margin-mobile pb-stack-lg flex-1 flex flex-col">
+<!-- Toggle Navigation -->
+<div class="flex justify-center mb-stack-lg">
+<div class="bg-surface-container-high p-unit rounded-full flex">
+<button class="px-stack-md py-stack-sm rounded-full bg-primary-container text-on-primary-container font-label-md text-label-md transition-colors">
+                        Task
+                    </button>
+<button class="px-stack-md py-stack-sm rounded-full text-on-surface-variant font-label-md text-label-md hover:bg-surface-variant/20 transition-colors">
+                        Habit
+                    </button>
+</div>
+</div>
+<!-- Title Input Area -->
+<div class="mb-stack-lg">
+<textarea class="w-full bg-transparent focus:ring-0 font-display text-headline-lg p-0 text-on-background resize-none placeholder:text-outline-variant border-b-2 border-primary focus:border-primary-container" rows="2">Contact Pedro about Sala Caracol gig</textarea>
+<div class="h-[1px] w-full bg-outline-variant/30 mt-stack-sm"></div>
+</div>
+<!-- Metadata Chips (Horizontal Scroll) -->
+<div class="flex overflow-x-auto gap-stack-sm pb-stack-md hide-scrollbar">
+<!-- Theme -->
+<button class="flex-shrink-0 flex items-center gap-unit px-stack-md py-stack-sm bg-secondary-container/20 rounded-full border border-secondary-container/30 hover:bg-surface-container-highest active:bg-surface-variant"><span class="material-symbols-outlined text-[16px] text-secondary">label</span><span class="font-label-md text-label-md text-secondary">DJ career</span><span class="material-symbols-outlined text-[16px] text-secondary ml-unit">expand_more</span></button>
+<!-- Effort -->
+<button class="flex-shrink-0 flex items-center gap-unit px-stack-md py-stack-sm bg-surface-container-high rounded-full border border-outline-variant/20 hover:bg-surface-container-highest active:bg-surface-variant"><span class="material-symbols-outlined text-[16px] text-on-surface-variant">bolt</span><span class="font-label-md text-label-md text-on-surface">Low</span><span class="material-symbols-outlined text-[16px] text-on-surface-variant ml-unit">expand_more</span></button>
+<!-- Return (Low Confidence/Faded) -->
+<button class="flex-shrink-0 flex items-center gap-unit px-stack-md py-stack-sm bg-surface-container-high rounded-full border border-outline-variant/20 hover:bg-surface-container-highest active:bg-surface-variant"><span class="material-symbols-outlined text-[16px] text-on-surface-variant opacity-50">trending_up</span><span class="font-label-md text-label-md text-on-surface opacity-50">High</span><span class="material-symbols-outlined text-[16px] text-on-surface-variant opacity-50 ml-unit">expand_more</span></button>
+<!-- Timing -->
+<button class="flex-shrink-0 flex items-center gap-unit px-stack-md py-stack-sm bg-tertiary-container/10 rounded-full border border-tertiary-container/30">
+<span class="material-symbols-outlined text-[16px] text-tertiary">schedule</span>
+<span class="font-label-md text-label-md text-tertiary">This-week</span>
+</button>
+<!-- Goal (Ghost Style) -->
+<button class="flex-shrink-0 flex items-center gap-unit px-stack-md py-stack-sm rounded-full border border-outline-variant/40 border-dashed">
+<span class="material-symbols-outlined text-[16px] text-outline">flag</span>
+<span class="font-label-md text-label-md text-outline">Link Goal</span>
+</button>
+<!-- Reminder (Ghost Style) -->
+<button class="flex-shrink-0 flex items-center gap-unit px-stack-md py-stack-sm rounded-full border border-outline-variant/40 border-dashed">
+<span class="material-symbols-outlined text-[16px] text-outline">notifications</span>
+<span class="font-label-md text-label-md text-outline">Add Reminder</span>
+</button>
+</div>
+<!-- Action Bar -->
+<div class="mt-auto pt-stack-lg flex items-center justify-between">
+<button class="px-stack-lg py-stack-md font-label-md text-label-md text-on-surface-variant hover:text-on-background transition-colors">
+                    Cancel
+                </button>
+<button class="px-stack-lg py-stack-md bg-primary-container text-on-primary-container rounded-xl font-label-md text-label-md shadow-sm active:scale-95 transition-transform duration-200">
+                    Save
+                </button>
+</div>
+</div>
+</div>
+<!-- Nav Bar Shell Logic (Mimicking Shared Component Structure) -->
+<nav class="fixed bottom-stack-md left-margin-mobile right-margin-mobile z-0 flex justify-around items-center px-stack-md py-stack-sm bg-surface-container/80 backdrop-blur-xl rounded-full opacity-50 pointer-events-none">
+<div class="flex flex-col items-center justify-center text-primary">
+<span class="material-symbols-outlined">calendar_view_week</span>
+<span class="font-label-md text-label-md">This Week</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md text-label-md">Backlog</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">target</span>
+<span class="font-label-md text-label-md">Goals</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Stats</span>
+</div>
+</nav>
+</body></html>

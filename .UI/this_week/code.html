@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Newsreader:ital,wght@0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#ffb4a4",
+                    "on-secondary-container": "#b2bc9e",
+                    "surface-container-low": "#1d1b19",
+                    "primary-fixed-dim": "#ffb4a4",
+                    "on-error-container": "#ffdad6",
+                    "tertiary": "#e9c176",
+                    "on-tertiary-fixed": "#261900",
+                    "tertiary-container": "#af8b47",
+                    "primary-container": "#dd725a",
+                    "inverse-surface": "#e7e1de",
+                    "on-primary-container": "#560d01",
+                    "background": "#151311",
+                    "error-container": "#93000a",
+                    "tertiary-fixed-dim": "#e9c176",
+                    "secondary-fixed-dim": "#c0caac",
+                    "secondary-fixed": "#dce7c7",
+                    "secondary-container": "#434c35",
+                    "on-tertiary-fixed-variant": "#5d4201",
+                    "on-background": "#e7e1de",
+                    "outline-variant": "#56423e",
+                    "inverse-primary": "#9d422e",
+                    "on-tertiary-container": "#382700",
+                    "inverse-on-surface": "#32302e",
+                    "on-secondary-fixed-variant": "#414a33",
+                    "on-primary-fixed": "#3d0500",
+                    "on-secondary-fixed": "#161e0a",
+                    "on-primary-fixed-variant": "#7e2b19",
+                    "secondary": "#c0caac",
+                    "on-secondary": "#2b331e",
+                    "outline": "#a48b86",
+                    "primary": "#ffb4a4",
+                    "surface-container": "#211f1d",
+                    "surface-bright": "#3b3936",
+                    "on-primary": "#5f1505",
+                    "primary-fixed": "#ffdad3",
+                    "surface": "#151311",
+                    "on-tertiary": "#412d00",
+                    "surface-container-high": "#2c2927",
+                    "on-error": "#690005",
+                    "surface-container-lowest": "#100e0c",
+                    "surface-container-highest": "#373432",
+                    "tertiary-fixed": "#ffdea5",
+                    "on-surface-variant": "#dcc0bb",
+                    "surface-dim": "#151311",
+                    "on-surface": "#e7e1de",
+                    "error": "#ffb4ab",
+                    "surface-variant": "#373432"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "stack-md": "16px",
+                    "stack-sm": "8px",
+                    "stack-lg": "32px",
+                    "gutter-mobile": "16px",
+                    "margin-mobile": "24px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "headline-md": ["Newsreader"],
+                    "body-lg": ["Inter"],
+                    "numbers": ["Inter"],
+                    "headline-lg": ["Newsreader"],
+                    "display": ["Newsreader"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "numbers": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "500"}],
+                    "display": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .ambient-shadow {
+            box-shadow: 0 10px 30px -10px rgba(26, 24, 22, 0.4);
+        }
+        .horizontal-hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .horizontal-hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary/30 min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl flex justify-between items-center w-full px-margin-mobile py-stack-md">
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Journal</h1>
+<button class="text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</header>
+<main class="pt-24 px-margin-mobile flex flex-col gap-stack-lg">
+<!-- Hero Section: Milestone Card -->
+<section>
+<div class="relative overflow-hidden rounded-xl p-stack-md flex flex-col gap-stack-sm bg-gradient-to-br from-primary-container/40 to-background border border-primary/10 ambient-shadow">
+<div class="flex justify-between items-start">
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full font-label-md text-label-md border border-primary/20">
+                        by Sept 2026
+                    </span>
+<span class="text-on-surface-variant font-label-md text-label-md">Milestone</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-background mt-2 leading-tight">
+                    Land first paid gig at a Madrid venue
+                </h2>
+<div class="flex items-center gap-2 mt-2">
+<span class="material-symbols-outlined text-primary text-[18px]">list_alt</span>
+<p class="font-body-md text-body-md text-on-surface-variant">5 tasks this week</p>
+</div>
+<!-- Subtle decorative element -->
+<div class="absolute -right-8 -bottom-8 w-32 h-32 bg-primary/5 rounded-full blur-3xl"></div>
+</div>
+</section>
+<!-- Habits Section -->
+<section class="flex flex-col gap-stack-md">
+<h3 class="font-headline-md text-headline-md px-1">Habits</h3>
+<div class="flex gap-4 overflow-x-auto horizontal-hide-scrollbar pb-2">
+<!-- Habit Card: Gym -->
+<div class="flex-shrink-0 w-32 bg-surface-container rounded-xl p-4 flex flex-col items-center gap-3 border border-outline-variant/10">
+<div class="relative w-12 h-12 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-outline-variant/20" cx="24" cy="24" fill="transparent" r="20" stroke="currentColor" stroke-width="3"></circle>
+<circle class="text-secondary" cx="24" cy="24" fill="transparent" r="20" stroke="currentColor" stroke-dasharray="125.6" stroke-dashoffset="62.8" stroke-width="3"></circle>
+</svg>
+<span class="absolute font-numbers text-[12px] text-on-surface">2/4</span>
+</div>
+<div class="text-center">
+<p class="font-label-md text-label-md text-on-surface">Gym</p>
+<span class="text-[10px] uppercase tracking-wider text-secondary font-bold">Health</span>
+</div>
+</div>
+<!-- Habit Card: Bachata -->
+<div class="flex-shrink-0 w-32 bg-surface-container rounded-xl p-4 flex flex-col items-center gap-3 border border-outline-variant/10">
+<div class="relative w-12 h-12 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-outline-variant/20" cx="24" cy="24" fill="transparent" r="20" stroke="currentColor" stroke-width="3"></circle>
+<circle class="text-tertiary" cx="24" cy="24" fill="transparent" r="20" stroke="currentColor" stroke-dasharray="125.6" stroke-dashoffset="62.8" stroke-width="3"></circle>
+</svg>
+<span class="absolute font-numbers text-[12px] text-on-surface">1/2</span>
+</div>
+<div class="text-center">
+<p class="font-label-md text-label-md text-on-surface">Bachata</p>
+<span class="text-[10px] uppercase tracking-wider text-tertiary font-bold">Art</span>
+</div>
+</div>
+<!-- Habit Card: CVs -->
+<div class="flex-shrink-0 w-32 bg-surface-container rounded-xl p-4 flex flex-col items-center gap-3 border border-outline-variant/10">
+<div class="relative w-12 h-12 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-outline-variant/20" cx="24" cy="24" fill="transparent" r="20" stroke="currentColor" stroke-width="3"></circle>
+<circle class="text-primary" cx="24" cy="24" fill="transparent" r="20" stroke="currentColor" stroke-dasharray="125.6" stroke-dashoffset="125.6" stroke-width="3"></circle>
+</svg>
+<span class="absolute font-numbers text-[12px] text-on-surface">0/3</span>
+</div>
+<div class="text-center">
+<p class="font-label-md text-label-md text-on-surface">CVs</p>
+<span class="text-[10px] uppercase tracking-wider text-primary font-bold">Work</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Tasks Section -->
+<section class="flex flex-col gap-stack-md">
+<div class="flex justify-between items-end px-1">
+<h3 class="font-headline-md text-headline-md">Tasks</h3>
+</div>
+<!-- Segmented Toggle -->
+<div class="flex bg-surface-container-low p-1 rounded-lg">
+<button class="flex-1 py-1.5 rounded-md bg-surface-variant text-on-surface font-label-md text-label-md shadow-sm">Recommended</button>
+<button class="flex-1 py-1.5 text-on-surface-variant font-label-md text-label-md">By theme</button>
+<button class="flex-1 py-1.5 text-on-surface-variant font-label-md text-label-md">Added</button>
+</div>
+<!-- Task Group: Music -->
+<div class="flex flex-col gap-stack-sm">
+<div class="flex items-center gap-2 py-2 group cursor-pointer">
+<span class="material-symbols-outlined text-outline text-[20px]">expand_more</span>
+<span class="font-label-md text-label-md text-tertiary uppercase tracking-widest font-bold">Music Production</span>
+<div class="flex-1 h-[1px] bg-outline-variant/30"></div>
+</div>
+<!-- Task Item 1 -->
+<div class="bg-surface-container-low rounded-xl p-4 flex items-center gap-4 border border-outline-variant/5">
+<div class="w-6 h-6 rounded-full border-2 border-primary/40 flex-shrink-0 transition-all active:scale-90 active:bg-primary/20"></div>
+<div class="flex-1 flex flex-col gap-2">
+<p class="font-body-md text-body-md text-on-surface">Polish demo for Joy Eslava</p>
+<div class="flex gap-2">
+<span class="bg-secondary/10 text-secondary text-[10px] px-2 py-0.5 rounded font-bold uppercase">Low Effort</span>
+<span class="bg-tertiary/10 text-tertiary text-[10px] px-2 py-0.5 rounded font-bold uppercase">High Return</span>
+</div>
+</div>
+</div>
+<!-- Task Item 2 -->
+<div class="bg-surface-container-low rounded-xl p-4 flex items-center gap-4 border border-outline-variant/5">
+<div class="w-6 h-6 rounded-full border-2 border-primary/40 flex-shrink-0"></div>
+<div class="flex-1 flex flex-col gap-2">
+<p class="font-body-md text-body-md text-on-surface">Update technical rider</p>
+<div class="flex gap-2">
+<span class="bg-secondary/10 text-secondary text-[10px] px-2 py-0.5 rounded font-bold uppercase">Med Effort</span>
+<span class="bg-tertiary/10 text-tertiary text-[10px] px-2 py-0.5 rounded font-bold uppercase">Med Return</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Task Group: Admin -->
+<div class="flex flex-col gap-stack-sm mt-2">
+<div class="flex items-center gap-2 py-2 group cursor-pointer">
+<span class="material-symbols-outlined text-outline text-[20px]">expand_more</span>
+<span class="font-label-md text-label-md text-primary uppercase tracking-widest font-bold">Logistics</span>
+<div class="flex-1 h-[1px] bg-outline-variant/30"></div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-4 flex items-center gap-4 border border-outline-variant/5">
+<div class="w-6 h-6 rounded-full border-2 border-primary/40 flex-shrink-0"></div>
+<div class="flex-1 flex flex-col gap-2">
+<p class="font-body-md text-body-md text-on-surface">Contact venue managers in Malasaña</p>
+<div class="flex gap-2">
+<span class="bg-secondary/10 text-secondary text-[10px] px-2 py-0.5 rounded font-bold uppercase">High Effort</span>
+<span class="bg-tertiary/10 text-tertiary text-[10px] px-2 py-0.5 rounded font-bold uppercase">High Return</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Done Section -->
+<section class="mb-12">
+<div class="bg-surface-container-lowest rounded-xl p-stack-md flex justify-between items-center opacity-60">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-outline">check_circle</span>
+<p class="font-label-md text-label-md text-on-surface-variant">Done (4)</p>
+</div>
+<span class="material-symbols-outlined text-outline">expand_more</span>
+</div>
+</section>
+</main>
+<!-- FAB: Multi-action -->
+<div class="fixed bottom-28 right-margin-mobile flex flex-col items-end gap-3 z-50">
+<!-- Manual Entry (Mini FAB) -->
+<button class="w-10 h-10 bg-surface-container-high text-primary rounded-full flex items-center justify-center ambient-shadow active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[20px]">add</span>
+</button>
+<!-- Voice Memo (Main FAB) -->
+<button class="w-16 h-16 bg-primary-container text-on-primary-container rounded-full flex items-center justify-center ambient-shadow active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[28px]" data-weight="fill">mic</span>
+</button>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 flex justify-around items-center px-gutter-mobile pb-6 pt-2 bg-surface-container/80 backdrop-blur-xl rounded-t-xl mx-margin-mobile mb-4 shadow-sm">
+<!-- This Week -->
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary font-bold hover:text-primary-container transition-colors active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-weight="fill">calendar_view_week</span>
+<span class="font-label-md text-label-md mt-1">This Week</span>
+</a>
+<!-- Backlog -->
+<a class="flex flex-col items-center justify-center text-outline dark:text-outline-variant hover:text-primary-container transition-colors active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md text-label-md mt-1">Backlog</span>
+</a>
+<!-- Goals -->
+<a class="flex flex-col items-center justify-center text-outline dark:text-outline-variant hover:text-primary-container transition-colors active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">target</span>
+<span class="font-label-md text-label-md mt-1">Goals</span>
+</a>
+<!-- Stats -->
+<a class="flex flex-col items-center justify-center text-outline dark:text-outline-variant hover:text-primary-container transition-colors active:scale-90 transition-all duration-300" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md mt-1">Stats</span>
+</a>
+</nav>
+</body></html>

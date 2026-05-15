@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed": "#dce7c7",
+                    "error-container": "#93000a",
+                    "secondary-fixed-dim": "#c0caac",
+                    "on-primary": "#5f1505",
+                    "tertiary-fixed-dim": "#e9c176",
+                    "surface-container": "#211f1d",
+                    "on-background": "#e7e1de",
+                    "on-surface": "#e7e1de",
+                    "surface-variant": "#373432",
+                    "surface-container-lowest": "#100e0c",
+                    "inverse-surface": "#e7e1de",
+                    "inverse-primary": "#9d422e",
+                    "on-secondary-container": "#b2bc9e",
+                    "surface-container-high": "#2c2927",
+                    "surface-bright": "#3b3936",
+                    "on-tertiary": "#412d00",
+                    "on-secondary-fixed": "#161e0a",
+                    "on-tertiary-container": "#382700",
+                    "on-surface-variant": "#dcc0bb",
+                    "tertiary-fixed": "#ffdea5",
+                    "surface-container-low": "#1d1b19",
+                    "surface-dim": "#151311",
+                    "on-primary-container": "#560d01",
+                    "outline-variant": "#56423e",
+                    "on-secondary-fixed-variant": "#414a33",
+                    "secondary-container": "#434c35",
+                    "secondary": "#c0caac",
+                    "outline": "#a48b86",
+                    "inverse-on-surface": "#32302e",
+                    "primary-fixed-dim": "#ffb4a4",
+                    "primary": "#ffb4a4",
+                    "primary-fixed": "#ffdad3",
+                    "on-tertiary-fixed": "#261900",
+                    "on-error": "#690005",
+                    "on-primary-fixed": "#3d0500",
+                    "background": "#151311",
+                    "tertiary-container": "#af8b47",
+                    "tertiary": "#e9c176",
+                    "on-tertiary-fixed-variant": "#5d4201",
+                    "on-secondary": "#2b331e",
+                    "surface-tint": "#ffb4a4",
+                    "error": "#ffb4ab",
+                    "on-primary-fixed-variant": "#7e2b19",
+                    "primary-container": "#dd725a",
+                    "surface": "#151311",
+                    "on-error-container": "#ffdad6",
+                    "surface-container-highest": "#373432"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "24px",
+                    "stack-lg": "32px",
+                    "gutter-mobile": "16px",
+                    "stack-sm": "8px",
+                    "stack-md": "16px",
+                    "unit": "4px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Newsreader"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Newsreader"],
+                    "numbers": ["Inter"],
+                    "display": ["Newsreader"],
+                    "label-md": ["Inter"],
+                    "body-md": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "500"}],
+                    "numbers": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .task-swipe-action {
+            clip-path: inset(0 0 0 100%);
+            transition: clip-path 0.3s ease;
+        }
+        .task-row:active .task-swipe-action {
+            clip-path: inset(0 0 0 0);
+        }
+        body {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="bg-background/80 backdrop-blur-xl dark:bg-background/80 fixed top-0 left-0 right-0 z-40 flex justify-between items-center w-full px-margin-mobile py-stack-md">
+<h1 class="font-headline-md text-headline-md text-primary">Backlog</h1>
+<button class="text-on-surface-variant hover:opacity-80 transition-opacity active:scale-95">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</header>
+<main class="pt-24 pb-40 px-margin-mobile">
+<!-- Segmented Toggle -->
+<div class="flex p-1 bg-surface-container-low rounded-xl mb-stack-lg">
+<button class="flex-1 py-2 font-label-md text-label-md rounded-lg bg-primary text-on-primary shadow-sm transition-all">By theme</button>
+<button class="flex-1 py-2 font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors">By priority</button>
+<button class="flex-1 py-2 font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors">Recently added</button>
+</div>
+<!-- Content Canvas -->
+<div class="space-y-stack-lg">
+<!-- Section: Music Production -->
+<section class="space-y-stack-md">
+<div class="flex items-center justify-between group cursor-pointer">
+<h2 class="font-headline-md text-headline-md text-on-surface/60 tracking-wider">MUSIC PRODUCTION</h2>
+<span class="material-symbols-outlined text-outline">expand_more</span>
+</div>
+<div class="space-y-stack-sm">
+<!-- Task Item 1 -->
+<div class="task-row relative overflow-hidden group">
+<div class="flex items-start gap-4 p-4 bg-surface-container-low rounded-xl border border-transparent hover:border-outline-variant transition-all">
+<div class="mt-1 w-6 h-6 rounded-full border-2 border-outline hover:border-primary cursor-pointer flex items-center justify-center transition-colors">
+<div class="w-2 h-2 rounded-full bg-primary opacity-0 transition-opacity group-active:opacity-100"></div>
+</div>
+<div class="flex-1 space-y-2">
+<p class="font-body-md text-on-surface">Research local vinyl shops</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-0.5 rounded-full bg-secondary/10 text-secondary font-label-md text-[10px] uppercase tracking-wider">Music</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-variant text-on-surface-variant font-label-md text-[10px] uppercase tracking-wider">Low Effort</span>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-container/20 text-tertiary font-label-md text-[10px] uppercase tracking-wider">High Return</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Task Item 2 -->
+<div class="task-row relative overflow-hidden group">
+<div class="flex items-start gap-4 p-4 bg-surface-container-low rounded-xl border border-transparent hover:border-outline-variant transition-all">
+<div class="mt-1 w-6 h-6 rounded-full border-2 border-outline hover:border-primary cursor-pointer flex items-center justify-center"></div>
+<div class="flex-1 space-y-2">
+<p class="font-body-md text-on-surface">Draft setlist for October gig</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-0.5 rounded-full bg-secondary/10 text-secondary font-label-md text-[10px] uppercase tracking-wider">Music</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-variant text-on-surface-variant font-label-md text-[10px] uppercase tracking-wider">Med Effort</span>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-container/20 text-tertiary font-label-md text-[10px] uppercase tracking-wider">High Return</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Logistics -->
+<section class="space-y-stack-md">
+<div class="flex items-center justify-between group cursor-pointer">
+<h2 class="font-headline-md text-headline-md text-on-surface/60 tracking-wider">LOGISTICS</h2>
+<span class="material-symbols-outlined text-outline">expand_more</span>
+</div>
+<div class="space-y-stack-sm">
+<!-- Task Item 3 -->
+<div class="task-row relative overflow-hidden group">
+<div class="flex items-start gap-4 p-4 bg-surface-container-low rounded-xl border border-transparent hover:border-outline-variant transition-all">
+<div class="mt-1 w-6 h-6 rounded-full border-2 border-outline hover:border-primary cursor-pointer flex items-center justify-center"></div>
+<div class="flex-1 space-y-2">
+<p class="font-body-md text-on-surface">Renew specialized equipment insurance</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-0.5 rounded-full bg-secondary/10 text-secondary font-label-md text-[10px] uppercase tracking-wider">Admin</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-variant text-on-surface-variant font-label-md text-[10px] uppercase tracking-wider">Low Effort</span>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-container/20 text-tertiary font-label-md text-[10px] uppercase tracking-wider">Safety Net</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section: Personal -->
+<section class="space-y-stack-md">
+<div class="flex items-center justify-between group cursor-pointer">
+<h2 class="font-headline-md text-headline-md text-on-surface/60 tracking-wider">PERSONAL</h2>
+<span class="material-symbols-outlined text-outline">expand_more</span>
+</div>
+<div class="space-y-stack-sm">
+<!-- Task Item 4 -->
+<div class="task-row relative overflow-hidden group">
+<div class="flex items-start gap-4 p-4 bg-surface-container-low rounded-xl border border-transparent hover:border-outline-variant transition-all">
+<div class="mt-1 w-6 h-6 rounded-full border-2 border-outline hover:border-primary cursor-pointer flex items-center justify-center"></div>
+<div class="flex-1 space-y-2">
+<p class="font-body-md text-on-surface">Organize analog photo archive</p>
+<div class="flex flex-wrap gap-2">
+<span class="px-2 py-0.5 rounded-full bg-secondary/10 text-secondary font-label-md text-[10px] uppercase tracking-wider">Archive</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-variant text-on-surface-variant font-label-md text-[10px] uppercase tracking-wider">High Effort</span>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-container/20 text-tertiary font-label-md text-[10px] uppercase tracking-wider">Personal Value</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Contextual FAB -->
+<div class="fixed bottom-28 right-margin-mobile flex items-end gap-2 z-50">
+<button class="w-10 h-10 bg-surface-container-high text-primary rounded-full shadow-lg flex items-center justify-center active:scale-90 transition-all">
+<span class="material-symbols-outlined">add</span>
+</button>
+<button class="w-16 h-16 bg-primary-container text-on-primary-container rounded-full shadow-lg flex items-center justify-center active:scale-95 transition-all">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">mic</span>
+</button>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 right-0 z-50 flex justify-around items-center px-gutter-mobile pb-6 pt-2 bg-surface-container/80 backdrop-blur-xl dark:bg-surface-container/80 rounded-t-xl mx-margin-mobile mb-4 shadow-sm">
+<button class="flex flex-col items-center justify-center text-outline dark:text-outline-variant hover:text-primary-container transition-colors active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined">calendar_view_week</span>
+<span class="font-label-md text-label-md">This Week</span>
+</button>
+<button class="flex flex-col items-center justify-center text-primary dark:text-primary font-bold active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">inventory_2</span>
+<span class="font-label-md text-label-md">Backlog</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline dark:text-outline-variant hover:text-primary-container transition-colors active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined">target</span>
+<span class="font-label-md text-label-md">Goals</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline dark:text-outline-variant hover:text-primary-container transition-colors active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">Stats</span>
+</button>
+</nav>
+<!-- Background Decoration for "Analog Digital" Feel -->
+<div class="fixed inset-0 pointer-events-none opacity-[0.03] z-[-1] overflow-hidden">
+<div class="absolute inset-0" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBHq4hvocG8_5qu5YrzcqJ17Rp1pMjg7QE8Bq5chahRja5PwN4_bpCypumFTmxaczEjmjvlUA3NIgAfVYoImKkMTRrxqgB2RgoKVlmLnmvzunPCBHuPd0zFYme5iLNmEH1cu0Ui7QJarz_aNmsIWavRGciW5kDFNRieGm7dgcbE29I4vn9PtKyExaAS7u1zOTH-DBzSXr55QCcZ5smNNO1xTSjK-M8aYD4QpmsoJxdphoHL2jxzQ05Rj5rJKfFvVxZBKDqHvwdwbNk');"></div>
+</div>
+</body></html>

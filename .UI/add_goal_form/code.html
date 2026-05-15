@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;500;600&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-bright": "#3b3936",
+                    "surface-container-highest": "#373432",
+                    "secondary-fixed-dim": "#c0caac",
+                    "on-primary-fixed": "#3d0500",
+                    "on-error-container": "#ffdad6",
+                    "on-surface-variant": "#dcc0bb",
+                    "error": "#ffb4ab",
+                    "tertiary-fixed-dim": "#e9c176",
+                    "inverse-primary": "#9d422e",
+                    "on-tertiary-container": "#382700",
+                    "on-error": "#690005",
+                    "tertiary-fixed": "#ffdea5",
+                    "on-surface": "#e7e1de",
+                    "primary": "#ffb4a4",
+                    "surface-container": "#211f1d",
+                    "surface": "#151311",
+                    "surface-container-low": "#1d1b19",
+                    "primary-fixed-dim": "#ffb4a4",
+                    "outline": "#a48b86",
+                    "inverse-on-surface": "#32302e",
+                    "outline-variant": "#56423e",
+                    "on-tertiary": "#412d00",
+                    "on-secondary-fixed": "#161e0a",
+                    "secondary-fixed": "#dce7c7",
+                    "surface-dim": "#151311",
+                    "tertiary": "#e9c176",
+                    "surface-container-high": "#2c2927",
+                    "on-secondary": "#2b331e",
+                    "secondary-container": "#434c35",
+                    "surface-tint": "#ffb4a4",
+                    "inverse-surface": "#e7e1de",
+                    "tertiary-container": "#af8b47",
+                    "error-container": "#93000a",
+                    "on-tertiary-fixed": "#261900",
+                    "secondary": "#c0caac",
+                    "primary-fixed": "#ffdad3",
+                    "primary-container": "#dd725a",
+                    "on-tertiary-fixed-variant": "#5d4201",
+                    "on-secondary-container": "#b2bc9e",
+                    "background": "#151311",
+                    "surface-variant": "#373432",
+                    "on-background": "#e7e1de",
+                    "on-secondary-fixed-variant": "#414a33",
+                    "on-primary-fixed-variant": "#7e2b19",
+                    "on-primary-container": "#560d01",
+                    "surface-container-lowest": "#100e0c",
+                    "on-primary": "#5f1505"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-sm": "8px",
+                    "stack-lg": "32px",
+                    "unit": "4px",
+                    "stack-md": "16px",
+                    "gutter-mobile": "16px",
+                    "margin-mobile": "24px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "numbers": ["Inter"],
+                    "headline-md": ["Newsreader"],
+                    "headline-lg": ["Newsreader"],
+                    "label-md": ["Inter"],
+                    "display": ["Newsreader"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "numbers": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "500"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "display": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #151311;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #373432;
+            border-radius: 10px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col">
+<!-- Top AppBar (from JSON) -->
+<header class="flex items-center px-margin-mobile h-16 w-full bg-surface dark:bg-surface top-0 sticky z-40">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary dark:text-primary cursor-pointer active:opacity-80 transition-opacity" data-icon="close">close</span>
+<h1 class="font-headline-md text-headline-md text-on-surface">New Goal</h1>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-1 px-margin-mobile max-w-2xl mx-auto w-full pb-32 pt-stack-lg">
+<div class="flex flex-col space-y-stack-lg">
+<!-- Field 1: Title Input -->
+<section class="space-y-stack-sm">
+<input class="w-full bg-transparent border-0 border-b border-outline-variant focus:border-primary focus:ring-0 font-headline-lg text-headline-lg text-on-surface placeholder:text-on-surface-variant/30 transition-all py-unit" placeholder="Goal title..." type="text"/>
+</section>
+<!-- Field 2: Target Date -->
+<section class="space-y-stack-md">
+<label class="font-label-md text-label-md text-on-surface-variant">Target Date</label>
+<div class="flex flex-wrap gap-stack-sm">
+<button class="px-stack-md py-2 rounded-full bg-secondary-container/20 text-on-secondary-container border border-outline-variant hover:bg-surface-container-high transition-colors font-label-md text-label-md">3 months</button>
+<button class="px-stack-md py-2 rounded-full bg-secondary-container/20 text-on-secondary-container border border-outline-variant hover:bg-surface-container-high transition-colors font-label-md text-label-md">6 months</button>
+<button class="px-stack-md py-2 rounded-full bg-primary-container text-on-primary-container border border-primary transition-colors font-label-md text-label-md">1 year</button>
+<button class="px-stack-md py-2 rounded-full bg-secondary-container/20 text-on-secondary-container border border-outline-variant hover:bg-surface-container-high transition-colors font-label-md text-label-md">Custom</button>
+</div>
+<!-- Inline Date Picker Simulation -->
+<div class="mt-stack-md bg-surface-container rounded-xl p-stack-md shadow-sm border border-outline-variant/10">
+<div class="flex justify-between items-center mb-stack-md px-2">
+<span class="font-label-md text-label-md text-on-surface">September 2025</span>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="chevron_left">chevron_left</span>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<div class="grid grid-cols-7 gap-1 text-center">
+<!-- Days of week -->
+<span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">Mo</span>
+<span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">Tu</span>
+<span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">We</span>
+<span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">Th</span>
+<span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">Fr</span>
+<span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">Sa</span>
+<span class="text-[10px] text-on-surface-variant font-bold uppercase tracking-wider">Su</span>
+<!-- Dates -->
+<div class="h-8 flex items-center justify-center font-numbers text-on-surface-variant/40">28</div>
+<div class="h-8 flex items-center justify-center font-numbers text-on-surface-variant/40">29</div>
+<div class="h-8 flex items-center justify-center font-numbers text-on-surface-variant/40">30</div>
+<div class="h-8 flex items-center justify-center font-numbers text-on-surface-variant/40">31</div>
+<div class="h-8 flex items-center justify-center font-numbers text-on-surface">1</div>
+<div class="h-8 flex items-center justify-center font-numbers text-on-surface">2</div>
+<div class="h-8 flex items-center justify-center font-numbers text-on-surface">3</div>
+<div class="h-8 flex items-center justify-center font-numbers text-on-surface">4</div>
+<div class="h-8 flex items-center justify-center font-numbers bg-primary text-on-primary rounded-full font-bold">5</div>
+<div class="h-8 flex items-center justify-center font-numbers text-on-surface">6</div>
+<div class="h-8 flex items-center justify-center font-numbers text-on-surface">7</div>
+</div>
+</div>
+</section>
+<!-- Field 3: Priority -->
+<section class="space-y-stack-md">
+<label class="font-label-md text-label-md text-on-surface-variant">Priority</label>
+<div class="flex bg-surface-container rounded-lg p-1 border border-outline-variant/10">
+<button class="flex-1 py-2 font-label-md text-label-md rounded-md bg-surface-bright text-on-surface shadow-sm">Primary</button>
+<button class="flex-1 py-2 font-label-md text-label-md text-on-surface-variant hover:text-on-surface transition-colors">Secondary</button>
+</div>
+</section>
+<!-- Field 4: Theme Dropdown -->
+<section class="space-y-stack-md">
+<label class="font-label-md text-label-md text-on-surface-variant">Theme</label>
+<div class="relative group">
+<div class="w-full bg-surface-container rounded-xl p-stack-md flex justify-between items-center border border-outline-variant/20 group-hover:border-outline-variant transition-all cursor-pointer">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-body-md text-body-md text-on-surface">Creative Output</span>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="keyboard_arrow_down">keyboard_arrow_down</span>
+</div>
+</div>
+</section>
+<!-- Field 5: Why does this matter? -->
+<section class="space-y-stack-md">
+<label class="font-label-md text-label-md text-on-surface-variant">Why does this matter? <span class="opacity-50 font-normal">(optional)</span></label>
+<textarea class="w-full bg-surface-container-low border border-outline-variant/10 rounded-xl focus:border-outline-variant focus:ring-0 font-body-md text-body-md text-on-surface-variant placeholder:text-on-surface-variant/20 py-stack-md px-stack-md transition-all" placeholder="Connecting this to my long-term purpose..." rows="4"></textarea>
+</section>
+</div>
+</main>
+<!-- Bottom Bar (from JSON) -->
+<div class="fixed bottom-0 w-full z-50 flex justify-center items-center pb-stack-lg px-margin-mobile">
+<nav class="fixed bottom-stack-md mx-margin-mobile rounded-xl inset-x-0 z-50 bg-surface-container/80 dark:bg-surface-container/80 backdrop-blur-xl shadow-sm flex items-center justify-between px-stack-md py-stack-sm border border-outline-variant/10">
+<!-- Cancel -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-2 hover:text-primary transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined mb-1" data-icon="close">close</span>
+<span class="font-label-md text-label-md">Cancel</span>
+</button>
+<!-- Save (Disabled State) -->
+<button class="flex flex-col items-center justify-center bg-primary-container/40 text-on-primary-container/50 rounded-lg px-8 py-2 cursor-not-allowed">
+<span class="material-symbols-outlined mb-1" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-label-md text-label-md">Save</span>
+</button>
+</nav>
+</div>
+<!-- Background Decorative Element (Tonal Layering) -->
+<div class="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
+<div class="absolute -top-[10%] -left-[5%] w-[40%] h-[40%] bg-primary/5 blur-[120px] rounded-full"></div>
+<div class="absolute bottom-[20%] -right-[10%] w-[30%] h-[50%] bg-tertiary/5 blur-[100px] rounded-full"></div>
+</div>
+</body></html>
