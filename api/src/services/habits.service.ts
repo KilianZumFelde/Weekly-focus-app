@@ -88,6 +88,16 @@ export async function updateHabit(userId: string, habitId: string, body: PatchHa
     .from(habitWeekRecords)
     .where(and(eq(habitWeekRecords.habitId, habitId), eq(habitWeekRecords.weekStart, weekStart)))
     .limit(1);
+
+  // Keep targetAtTime in sync when weeklyTarget changes
+  if (body.weeklyTarget !== undefined && record) {
+    await db
+      .update(habitWeekRecords)
+      .set({ targetAtTime: body.weeklyTarget })
+      .where(eq(habitWeekRecords.id, record.id));
+    return toHabitResponse(row, { ...record, targetAtTime: body.weeklyTarget });
+  }
+
   return toHabitResponse(row, record ?? null);
 }
 
