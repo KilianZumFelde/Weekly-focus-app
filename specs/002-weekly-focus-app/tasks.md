@@ -66,34 +66,34 @@
 
 ### API — Tasks & Habits
 
-- [ ] T027 [P] [US1] Implement tasks service `api/src/services/tasks.service.ts`: getWeekTasks (with priorityScore), getBacklogTasks, createTask, updateTask, completeTask, uncompleteTask (blocks after flip), moveTask, deleteTask (cancels reminders)
-- [ ] T028 [P] [US1] Implement `api/src/routes/tasks.ts`: `GET /tasks/week`, `GET /tasks/backlog`, `POST /tasks`, `PATCH /tasks/:id`, `POST /tasks/:id/complete`, `POST /tasks/:id/uncomplete`, `POST /tasks/:id/move`, `DELETE /tasks/:id`
-- [ ] T029 [P] [US1] Implement habits service `api/src/services/habits.service.ts`: getHabits (with current week record), createHabit, updateHabit, incrementCount (returns targetHit flag), pauseHabit, resumeHabit
-- [ ] T030 [P] [US1] Implement `api/src/routes/habits.ts`: `GET /habits`, `POST /habits`, `PATCH /habits/:id`, `POST /habits/:id/increment`, `POST /habits/:id/pause`, `POST /habits/:id/resume`
-- [ ] T031 [P] [US1] Implement themes service + routes `api/src/services/themes.service.ts` + `api/src/routes/themes.ts`: full CRUD; DELETE moves linked items to Uncategorized; case-insensitive name uniqueness enforced
+- [x] T027 [P] [US1] Implement tasks service `api/src/services/tasks.service.ts`: getWeekTasks (with priorityScore), getBacklogTasks, createTask, updateTask, completeTask, uncompleteTask (blocks after flip), moveTask, deleteTask (cancels reminders)
+- [x] T028 [P] [US1] Implement `api/src/routes/tasks.ts`: `GET /tasks/week`, `GET /tasks/backlog`, `POST /tasks`, `PATCH /tasks/:id`, `POST /tasks/:id/complete`, `POST /tasks/:id/uncomplete`, `POST /tasks/:id/move`, `DELETE /tasks/:id`
+- [x] T029 [P] [US1] Implement habits service `api/src/services/habits.service.ts`: getHabits (with current week record), createHabit, updateHabit, incrementCount (returns targetHit flag), pauseHabit, resumeHabit
+- [x] T030 [P] [US1] Implement `api/src/routes/habits.ts`: `GET /habits`, `POST /habits`, `PATCH /habits/:id`, `POST /habits/:id/increment`, `POST /habits/:id/pause`, `POST /habits/:id/resume`
+- [x] T031 [P] [US1] Implement themes service + routes `api/src/services/themes.service.ts` + `api/src/routes/themes.ts`: full CRUD; DELETE moves linked items to Uncategorized; case-insensitive name uniqueness enforced
 
 ### Mobile — Service Clients
 
-- [ ] T032 [P] [US1] Create `mobile/services/tasks.service.ts` — typed wrappers for all tasks API endpoints
-- [ ] T033 [P] [US1] Create `mobile/services/habits.service.ts` — typed wrappers for all habits API endpoints
-- [ ] T034 [P] [US1] Create `mobile/services/themes.service.ts` — typed wrappers for themes endpoints
+- [x] T032 [P] [US1] Create `mobile/services/tasks.service.ts` — typed wrappers for all tasks API endpoints
+- [x] T033 [P] [US1] Create `mobile/services/habits.service.ts` — typed wrappers for all habits API endpoints
+- [x] T034 [P] [US1] Create `mobile/services/themes.service.ts` — typed wrappers for themes endpoints
 
 ### Mobile — Components
 
-- [ ] T035 [P] [US1] Create `mobile/components/tasks/TaskCard.tsx`: checkbox circle (tap = complete), title area (tap = open detail sheet), theme chip, effort chip, return chip; struck-through style when done
-- [ ] T036 [P] [US1] Create `mobile/components/habits/HabitCard.tsx`: two distinct hit-targets — progress ring (tap = increment) and text area (tap = open detail sheet); circular progress indicator; brief gold glow animation when target hit; no confetti
-- [ ] T037 [P] [US1] Create `mobile/components/shared/SortToggle.tsx`: segmented control with three options (Recommended / By theme / Added order)
-- [ ] T038 [US1] Create `mobile/components/tasks/TaskDetailSheet.tsx`: bottom sheet; editable title, theme chip, effort chip, return chip, week assignment toggle, goal link chip; "Move to backlog" and "Delete" actions; no "Drop" label here — that label is triage-only
-- [ ] T039 [US1] Create `mobile/components/habits/HabitDetailSheet.tsx`: bottom sheet; editable title, theme chip, weekly count target stepper, goal link chip; current streak + best-ever streak side by side; Pause/Resume toggle; Delete button (triggers confirmation dialog)
+- [x] T035 [P] [US1] Create `mobile/components/tasks/TaskCard.tsx`: checkbox circle (tap = complete), title area (tap = open detail sheet), theme chip, effort chip, return chip; struck-through style when done
+- [x] T036 [P] [US1] Create `mobile/components/habits/HabitCard.tsx`: two distinct hit-targets — progress ring (tap = increment) and text area (tap = open detail sheet); circular progress indicator; brief gold glow animation when target hit; no confetti
+- [x] T037 [P] [US1] Create `mobile/components/shared/SortToggle.tsx`: segmented control with three options (Recommended / By theme / Added order)
+- [x] T038 [US1] Create `mobile/components/tasks/TaskDetailSheet.tsx`: bottom sheet; editable title, theme chip, effort chip, return chip, week assignment toggle, goal link chip; "Move to backlog" and "Delete" actions; no "Drop" label here — that label is triage-only
+- [x] T039 [US1] Create `mobile/components/habits/HabitDetailSheet.tsx`: bottom sheet; editable title, theme chip, weekly count target stepper, goal link chip; current streak + best-ever streak side by side; Pause/Resume toggle; Delete button (triggers confirmation dialog)
 
 ### Mobile — This Week Screen
 
-- [ ] T040 [US1] Implement `mobile/app/(tabs)/index.tsx` (This Week): primary milestone hero card at top; habits section; tasks section grouped by theme with SortToggle; "Done (N)" collapsible section (collapsed by default); fetches from tasks and habits services; wires task complete/incomplete to UndoSnackbar; wires habit increment to UndoSnackbar
+- [x] T040 [US1] Implement `mobile/app/(tabs)/index.tsx` (This Week): primary milestone hero card at top; habits section; tasks section grouped by theme with SortToggle; "Done (N)" collapsible section (collapsed by default); fetches from tasks and habits services; wires task complete/incomplete to UndoSnackbar; wires habit increment to UndoSnackbar
 
 ### Tests (Constitution-mandated)
 
-- [ ] T041 [P] [US1] Unit test: priority score matrix in `api/tests/unit/priorityScore.test.ts` — verify all 9 effort×return combinations produce the correct `priorityScore` value
-- [ ] T042 [P] [US1] Integration test: task complete/uncomplete in `api/tests/integration/taskLifecycle.test.ts` — complete a task, verify status=done; uncomplete it, verify status=open; complete it again and simulate flip, verify uncomplete is rejected with TASK_ARCHIVED
+- [x] T041 [P] [US1] Unit test: priority score matrix in `api/tests/unit/priorityScore.test.ts` — verify all 9 effort×return combinations produce the correct `priorityScore` value
+- [x] T042 [P] [US1] Integration test: task complete/uncomplete in `api/tests/integration/taskLifecycle.test.ts` — complete a task, verify status=done; uncomplete it, verify status=open; complete it again and simulate flip, verify uncomplete is rejected with TASK_ARCHIVED
 
 **Checkpoint**: This Week screen works end-to-end. Tasks complete, habits increment, undo works, detail sheets open and save.
 
