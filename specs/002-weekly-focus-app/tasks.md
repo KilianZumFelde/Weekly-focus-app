@@ -16,17 +16,17 @@
 
 **Purpose**: Create the monorepo skeleton and configure tooling. Nothing runs yet.
 
-- [ ] T001 Create top-level monorepo structure: `mobile/`, `api/`, `shared/` directories with a root `package.json` defining npm workspaces
-- [ ] T002 [P] Initialise `api/` as a Node 20 TypeScript project: `package.json`, `tsconfig.json` (strict), Hono, Drizzle ORM, Zod, `@anthropic-ai/sdk`, `@supabase/supabase-js`
-- [ ] T003 [P] Initialise `mobile/` as an Expo project with Expo Router, `@supabase/supabase-js`, `@react-native-voice/voice`, `expo-notifications`
-- [ ] T004 [P] Configure ESLint + Prettier in `api/` with a shared `.eslintrc` and `.prettierrc`
-- [ ] T005 [P] Configure ESLint + Prettier in `mobile/` with a shared `.eslintrc` and `.prettierrc`
-- [ ] T006 Create `shared/types.ts` with stub TypeScript types for all API request/response shapes (matching `contracts/api.md`); configure path alias `@shared` in both `api/tsconfig.json` and `mobile/tsconfig.json`
-- [ ] T007 Create `api/.env.example` and `mobile/.env.example` with all required variable names and placeholder values (no real credentials)
-- [ ] T008 [USER] Create a Supabase project at supabase.com. Copy the **Database URL** (Session mode, port 5432), **Project URL**, **anon public key**, and **service role key** into `api/.env` and `mobile/.env` (using `.env.example` as the guide). Then confirm here.
-- [ ] T009 [USER] Confirm your Anthropic API key is set as `ANTHROPIC_API_KEY` in `api/.env`. Then confirm here.
-- [ ] T010 [USER] Create a Render.com **Web Service** pointing at the `api/` directory. Set the build command (`npm install && npm run build`) and start command (`npm run start`). Add the `api/.env` variables in the Render dashboard. Then confirm here.
-- [ ] T011 Create `api/src/routes/internal.ts` with a `GET /v1/health` endpoint that returns `{ "ok": true }` — used by UptimeRobot
+- [x] T001 Create top-level monorepo structure: `mobile/`, `api/`, `shared/` directories with a root `package.json` defining npm workspaces
+- [x] T002 [P] Initialise `api/` as a Node 20 TypeScript project: `package.json`, `tsconfig.json` (strict), Hono, Drizzle ORM, Zod, `@anthropic-ai/sdk`, `@supabase/supabase-js`
+- [x] T003 [P] Initialise `mobile/` as an Expo project with Expo Router, `@supabase/supabase-js`, `@react-native-voice/voice`, `expo-notifications`
+- [x] T004 [P] Configure ESLint + Prettier in `api/` with a shared `.eslintrc` and `.prettierrc`
+- [x] T005 [P] Configure ESLint + Prettier in `mobile/` with a shared `.eslintrc` and `.prettierrc`
+- [x] T006 Create `shared/types.ts` with stub TypeScript types for all API request/response shapes (matching `contracts/api.md`); configure path alias `@shared` in both `api/tsconfig.json` and `mobile/tsconfig.json`
+- [x] T007 Create `api/.env.example` and `mobile/.env.example` with all required variable names and placeholder values (no real credentials)
+- [x] T008 [USER] Create a Supabase project at supabase.com. Copy the **Database URL** (Session mode, port 5432), **Project URL**, **anon public key**, and **service role key** into `api/.env` and `mobile/.env` (using `.env.example` as the guide). Then confirm here.
+- [x] T009 [USER] Confirm your Anthropic API key is set as `ANTHROPIC_API_KEY` in `api/.env`. Then confirm here.
+- [x] T010 [USER] Create a Render.com **Web Service** pointing at the `api/` directory. Set the build command (`npm install && npm run build`) and start command (`npm run start`). Add the `api/.env` variables in the Render dashboard. Then confirm here.
+- [x] T011 Create `api/src/routes/internal.ts` with a `GET /v1/health` endpoint that returns `{ "ok": true }` — used by UptimeRobot
 
 **Checkpoint**: Repo structure exists, tooling configured, credentials in place, Render service created.
 
@@ -36,21 +36,21 @@
 
 **Purpose**: Core infrastructure that MUST be complete before any user story can be implemented. No user story work begins until this phase is fully done.
 
-- [ ] T012 Create Drizzle DB connection in `api/src/db/index.ts` using `DATABASE_URL` from env
-- [ ] T013 Write the complete Drizzle schema in `api/src/db/schema.ts` — all 7 entities (userProfiles, themes, goals, tasks, habits, habitWeekRecords, weekRecords, reminders) exactly as specified in `data-model.md`
-- [ ] T014 Generate and run the initial Drizzle migration: `api/src/db/migrations/` — creates all tables in Supabase
-- [ ] T015 [P] Create seed script `api/src/db/seed.ts` that inserts the 5 default themes (Health, Career, Personal, Learning, Uncategorized) for the user. **Use the placeholder theme names listed here — do not use any personal theme names without asking first.**
-- [ ] T016 [P] Implement Supabase Auth JWT verification middleware in `api/src/middleware/auth.ts` — verifies `Authorization: Bearer <jwt>` on all protected routes; attaches `userId` to context
-- [ ] T017 Create Hono app entry point `api/src/index.ts`: register all route modules, apply auth middleware globally, configure CORS for the mobile app
-- [ ] T018 Implement user profile auto-creation in `api/src/middleware/auth.ts`: on first authenticated request, create a `user_profiles` row if one does not exist (inserts with timezone defaulting to `'UTC'` until updated by the app)
-- [ ] T019 Implement `GET /users/me` and `PATCH /users/me` in `api/src/routes/users.ts` and `POST /users/push-token`
-- [ ] T020 [P] Set up Supabase Auth in the mobile app: `mobile/services/auth.ts` — sign in with email/password, persist session, expose current session token
-- [ ] T021 [P] Create base API fetch wrapper `mobile/services/api.ts` — attaches `Authorization` header from current Supabase session, handles 401 (re-auth), standard error shape parsing
-- [ ] T022 Set up Expo Router tab bar layout: `mobile/app/_layout.tsx` (auth gate — redirect to sign-in if no session) and `mobile/app/(tabs)/_layout.tsx` (4-tab bottom bar: This Week, Backlog, Goals, Stats) per `.UI/DESIGN.md`
-- [ ] T023 Create `mobile/components/shared/UndoSnackbar.tsx` — transient snackbar that appears after any state-changing action; one tap calls the provided `onUndo` callback; auto-dismisses after 4 seconds
-- [ ] T024 Create `mobile/hooks/useUndo.ts` — app-wide undo state manager; exposes `showUndo(label, onUndo)` and dismisses any existing snackbar before showing a new one
-- [ ] T025 [P] Set up integration test environment in `api/tests/setup.ts` — connects to a separate Supabase **test project** (uses `TEST_DATABASE_URL` env var); truncates all tables before each test
-- [ ] T026 [P] Set up unit test runner in `api/tests/unit/` — Jest config, no DB connection needed
+- [x] T012 Create Drizzle DB connection in `api/src/db/index.ts` using `DATABASE_URL` from env
+- [x] T013 Write the complete Drizzle schema in `api/src/db/schema.ts` — all 7 entities (userProfiles, themes, goals, tasks, habits, habitWeekRecords, weekRecords, reminders) exactly as specified in `data-model.md`
+- [x] T014 Generate and run the initial Drizzle migration: `api/src/db/migrations/` — creates all tables in Supabase
+- [x] T015 [P] Create seed script `api/src/db/seed.ts` that inserts the 5 default themes (Health, Career, Personal, Learning, Uncategorized) for the user. **Use the placeholder theme names listed here — do not use any personal theme names without asking first.**
+- [x] T016 [P] Implement Supabase Auth JWT verification middleware in `api/src/middleware/auth.ts` — verifies `Authorization: Bearer <jwt>` on all protected routes; attaches `userId` to context
+- [x] T017 Create Hono app entry point `api/src/index.ts`: register all route modules, apply auth middleware globally, configure CORS for the mobile app
+- [x] T018 Implement user profile auto-creation in `api/src/middleware/auth.ts`: on first authenticated request, create a `user_profiles` row if one does not exist (inserts with timezone defaulting to `'UTC'` until updated by the app)
+- [x] T019 Implement `GET /users/me` and `PATCH /users/me` in `api/src/routes/users.ts` and `POST /users/push-token`
+- [x] T020 [P] Set up Supabase Auth in the mobile app: `mobile/services/auth.ts` — sign in with email/password, persist session, expose current session token
+- [x] T021 [P] Create base API fetch wrapper `mobile/services/api.ts` — attaches `Authorization` header from current Supabase session, handles 401 (re-auth), standard error shape parsing
+- [x] T022 Set up Expo Router tab bar layout: `mobile/app/_layout.tsx` (auth gate — redirect to sign-in if no session) and `mobile/app/(tabs)/_layout.tsx` (4-tab bottom bar: This Week, Backlog, Goals, Stats) per `.UI/DESIGN.md`
+- [x] T023 Create `mobile/components/shared/UndoSnackbar.tsx` — transient snackbar that appears after any state-changing action; one tap calls the provided `onUndo` callback; auto-dismisses after 4 seconds
+- [x] T024 Create `mobile/hooks/useUndo.ts` — app-wide undo state manager; exposes `showUndo(label, onUndo)` and dismisses any existing snackbar before showing a new one
+- [x] T025 [P] Set up integration test environment in `api/tests/setup.ts` — connects to a separate Supabase **test project** (uses `TEST_DATABASE_URL` env var); truncates all tables before each test
+- [x] T026 [P] Set up unit test runner in `api/tests/unit/` — Jest config, no DB connection needed
 
 **Checkpoint**: API boots, JWT auth works, DB tables exist, mobile app opens and shows the tab bar.
 

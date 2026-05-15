@@ -121,6 +121,22 @@ handle scale, teams, or hypothetical future requirements is waste.
   personal data (including during setup or onboarding steps), Claude MUST ask
   the user first.
 
+## Implementation Progress Tracking
+
+Every implementation session MUST begin by reading `tasks.md` to determine
+the current phase and the next unchecked task. This is the primary mechanism
+for surviving context loss between sessions.
+
+- **Mark tasks done immediately**: change `- [ ]` to `- [x]` the moment a
+  task is complete — never batch completions.
+- **`tasks.md` is the source of truth** for progress. Git history and
+  conversation summaries are secondary. If they conflict, `tasks.md` wins.
+- **CLAUDE.md must reference `tasks.md`**: the agent context file must
+  always point to both `plan.md` (architecture) and `tasks.md` (progress)
+  so any new session can orient itself without reading the full conversation.
+- **Commit after each phase**: completed phases are committed to git before
+  the next phase begins, so task state is recoverable from the repo.
+
 ## Development Constraints
 
 - **Formatting & linting**: ESLint and Prettier are configured in the repo
@@ -153,4 +169,4 @@ handle scale, teams, or hypothetical future requirements is waste.
   Tracking table with: the principle violated, why it is necessary here, and
   what simpler alternative was considered and rejected.
 
-**Version**: 1.0.0 | **Ratified**: 2026-05-15 | **Last Amended**: 2026-05-15
+**Version**: 1.1.0 | **Ratified**: 2026-05-15 | **Last Amended**: 2026-05-15
