@@ -63,7 +63,6 @@ export default function ThisWeekScreen() {
   };
 
   const handleIncrement = async (habit: Habit) => {
-    const previousCount = habit.currentWeekRecord.countAchieved;
     const result = await habitsService.incrementCount(habit.id);
     if (result.targetHit) setLastHitHabitId(habit.id);
     setHabits((prev) =>
@@ -74,11 +73,11 @@ export default function ThisWeekScreen() {
       ),
     );
     showUndo(`${habit.title} incremented`, async () => {
-      // Optimistic revert — no server decrement endpoint exists yet
+      const decremented = await habitsService.decrementCount(habit.id);
       setHabits((prev) =>
         prev.map((h) =>
           h.id === habit.id
-            ? { ...h, currentWeekRecord: { ...h.currentWeekRecord, countAchieved: previousCount } }
+            ? { ...h, currentWeekRecord: { ...h.currentWeekRecord, countAchieved: decremented.countAchieved } }
             : h,
         ),
       );

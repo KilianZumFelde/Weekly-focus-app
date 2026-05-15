@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
+import Svg, { Circle } from 'react-native-svg';
 import type { Habit, Theme } from '@shared/types';
 
 interface Props {
@@ -12,7 +13,8 @@ interface Props {
 
 const RING_SIZE = 52;
 const STROKE = 3;
-const HALF = RING_SIZE / 2;
+const RADIUS = (RING_SIZE - STROKE) / 2;
+const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
 
 function ProgressRing({ count, target, color, trackColor }: {
   count: number;
@@ -21,30 +23,37 @@ function ProgressRing({ count, target, color, trackColor }: {
   trackColor: string;
 }) {
   const progress = target > 0 ? Math.min(count / target, 1) : 0;
-
-  // Right half fills during 0–50%, left half fills during 50–100%
-  const rightAngle = Math.min(progress, 0.5) * 360 - 180;
-  const leftAngle  = Math.max(progress - 0.5, 0) * 360 - 180;
-  const showLeft   = progress > 0.5;
+  const strokeDashoffset = CIRCUMFERENCE * (1 - progress);
 
   return (
     <View style={{ width: RING_SIZE, height: RING_SIZE }}>
-      {/* Track */}
-      <View style={[styles.ringBase, { borderColor: trackColor }]} />
-
-      {/* Right filler (0–50%) */}
-      {progress > 0 && (
-        <View style={styles.clipRight}>
-          <View style={[styles.ringBase, { borderColor: color, right: 0, transform: [{ rotate: `${rightAngle}deg` }] }]} />
-        </View>
-      )}
-
-      {/* Left filler (50–100%) */}
-      {showLeft && (
-        <View style={styles.clipLeft}>
-          <View style={[styles.ringBase, { borderColor: color, left: 0, transform: [{ rotate: `${leftAngle}deg` }] }]} />
-        </View>
-      )}
+      <Svg width={RING_SIZE} height={RING_SIZE} style={{ position: 'absolute' }}>
+        {/* Track */}
+        <Circle
+          cx={RING_SIZE / 2}
+          cy={RING_SIZE / 2}
+          r={RADIUS}
+          stroke={trackColor}
+          strokeWidth={STROKE}
+          fill="none"
+        />
+        {/* Progress arc — starts at top (rotate -90deg) */}
+        {progress > 0 && (
+          <Circle
+            cx={RING_SIZE / 2}
+            cy={RING_SIZE / 2}
+            r={RADIUS}
+            stroke={color}
+            strokeWidth={STROKE}
+            fill="none"
+            strokeDasharray={CIRCUMFERENCE}
+            strokeDashoffset={strokeDashoffset}
+            strokeLinecap="round"
+            rotation="-90"
+            origin={`${RING_SIZE / 2}, ${RING_SIZE / 2}`}
+          />
+        )}
+      </Svg>
 
       {/* Count text centred over ring */}
       <View style={styles.ringCenter}>
@@ -59,7 +68,6 @@ export function HabitCard({ habit, theme, onIncrement, onOpenDetail, justHitTarg
   const isComplete = targetAtTime > 0 && countAchieved >= targetAtTime;
 
   const glowing = useRef(false);
-  const [, forceUpdate] = useRef([0]).current;
   const glowTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -121,30 +129,6 @@ const styles = StyleSheet.create({
   },
   cardPaused: { opacity: 0.4 },
   ringSection: { alignItems: 'center' },
-  ringBase: {
-    position: 'absolute',
-    top: 0,
-    width: RING_SIZE,
-    height: RING_SIZE,
-    borderRadius: HALF,
-    borderWidth: STROKE,
-  },
-  clipRight: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    width: HALF,
-    height: RING_SIZE,
-    overflow: 'hidden',
-  },
-  clipLeft: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: HALF,
-    height: RING_SIZE,
-    overflow: 'hidden',
-  },
   ringCenter: {
     position: 'absolute',
     top: 0,

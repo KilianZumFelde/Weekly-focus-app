@@ -57,6 +57,13 @@ habits.post('/:id/increment', async (c) => {
   return c.json(result);
 });
 
+habits.post('/:id/decrement', async (c) => {
+  const userId = c.get('userId');
+  const result = await svc.decrementCount(userId, c.req.param('id'));
+  if (!result) return c.json({ error: 'Habit not found', code: 'NOT_FOUND' }, 404);
+  return c.json(result);
+});
+
 habits.post('/:id/pause', async (c) => {
   const userId = c.get('userId');
   const result = await svc.pauseHabit(userId, c.req.param('id'));

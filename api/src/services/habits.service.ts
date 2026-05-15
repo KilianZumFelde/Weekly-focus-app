@@ -131,6 +131,36 @@ export async function incrementCount(userId: string, habitId: string) {
   return { habitId, countAchieved, targetAtTime: habit.weeklyTarget, targetHit };
 }
 
+export async function decrementCount(userId: string, habitId: string) {
+  const weekStart = currentWeekStart();
+
+  const [habit] = await db
+    .select()
+    .from(habits)
+    .where(and(eq(habits.id, habitId), eq(habits.userId, userId)))
+    .limit(1);
+
+  if (!habit) return null;
+
+  const [existing] = await db
+    .select()
+    .from(habitWeekRecords)
+    .where(and(eq(habitWeekRecords.habitId, habitId), eq(habitWeekRecords.weekStart, weekStart)))
+    .limit(1);
+
+  if (!existing || existing.countAchieved <= 0) {
+    return { habitId, countAchieved: 0, targetAtTime: habit.weeklyTarget };
+  }
+
+  const [rec] = await db
+    .update(habitWeekRecords)
+    .set({ countAchieved: existing.countAchieved - 1 })
+    .where(eq(habitWeekRecords.id, existing.id))
+    .returning();
+
+  return { habitId, countAchieved: rec!.countAchieved, targetAtTime: habit.weeklyTarget };
+}
+
 export async function pauseHabit(userId: string, habitId: string) {
   const [row] = await db
     .update(habits)

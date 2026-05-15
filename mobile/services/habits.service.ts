@@ -10,6 +10,7 @@ export const habitsService = {
   createHabit: (body: CreateHabitBody) => api.post<Habit>('/habits', body),
   updateHabit: (id: string, body: PatchHabitBody) => api.patch<Habit>(`/habits/${id}`, body),
   incrementCount: (id: string) => api.post<IncrementHabitResponse>(`/habits/${id}/increment`),
+  decrementCount: (id: string) => api.post<IncrementHabitResponse>(`/habits/${id}/decrement`),
   pauseHabit: (id: string) => api.post<HabitStatusResponse>(`/habits/${id}/pause`),
   resumeHabit: (id: string) => api.post<HabitStatusResponse>(`/habits/${id}/resume`),
   deleteHabit: (id: string, body: DeleteHabitBody) => api.delete<DeleteHabitResponse>(`/habits/${id}`, body),

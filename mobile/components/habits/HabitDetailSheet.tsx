@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Modal, View, Text, TextInput, TouchableOpacity,
   Switch, StyleSheet, Alert,
@@ -18,17 +18,18 @@ interface Props {
 export function HabitDetailSheet({ habit, visible, onClose, onSave, onPause, onResume, onDelete }: Props) {
   const [title, setTitle] = useState('');
   const [target, setTarget] = useState(3);
+  const [isPaused, setIsPaused] = useState(false);
+  const pauseInFlight = useRef(false);
 
   useEffect(() => {
     if (habit) {
       setTitle(habit.title);
       setTarget(habit.weeklyTarget);
+      setIsPaused(habit.status === 'paused');
     }
   }, [habit?.id]);
 
   if (!habit) return null;
-
-  const isPaused = habit.status === 'paused';
 
   const handleClose = () => {
     onSave(habit.id, { title, weeklyTarget: target });
@@ -47,11 +48,12 @@ export function HabitDetailSheet({ habit, visible, onClose, onSave, onPause, onR
   };
 
   const togglePause = () => {
-    if (isPaused) {
-      onResume(habit.id);
-    } else {
-      onPause(habit.id);
-    }
+    if (pauseInFlight.current) return;
+    pauseInFlight.current = true;
+    const next = !isPaused;
+    setIsPaused(next);
+    const call = next ? onPause : onResume;
+    Promise.resolve(call(habit.id)).finally(() => { pauseInFlight.current = false; });
   };
 
   return (
