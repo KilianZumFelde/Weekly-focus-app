@@ -6,10 +6,6 @@
     "orientation": "portrait",
     "scheme": "weekly-focus",
     "userInterfaceStyle": "automatic",
-    "splash": {
-      "resizeMode": "contain",
-      "backgroundColor": "#121212"
-    },
     "ios": {
       "supportsTablet": false,
       "infoPlist": {
