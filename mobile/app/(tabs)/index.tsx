@@ -192,13 +192,13 @@ export default function ThisWeekScreen() {
             return (
               <View key={themeId} style={styles.themeGroup}>
                 <TouchableOpacity style={styles.themeHeader} onPress={() => toggleSection(themeId)}>
+                  <Text style={[styles.themeChevron, { color: theme?.color ?? '#A48B86' }]}>
+                    {isCollapsed ? '›' : '⌄'}
+                  </Text>
                   <Text style={[styles.themeName, { color: theme?.color ?? '#A48B86' }]}>
                     {theme?.name?.toUpperCase() ?? 'TASKS'}
                   </Text>
                   <View style={styles.themeLine} />
-                  <Text style={[styles.themeChevron, { color: theme?.color ?? '#A48B86' }]}>
-                    {isCollapsed ? '›' : '⌄'}
-                  </Text>
                 </TouchableOpacity>
 
                 {!isCollapsed && taskGroup.map((t) => (
@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
   themeHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
+    paddingHorizontal: 24,
     paddingTop: 20,
     paddingBottom: 8,
     gap: 10,
@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
   themeChevron: { fontSize: 16, fontWeight: '300' },
   doneSection: {
     marginTop: 16,
-    marginHorizontal: 16,
+    marginHorizontal: 24,
     backgroundColor: '#1D1B19',
     borderRadius: 12,
     overflow: 'hidden',

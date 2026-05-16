@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 14,
     marginBottom: 8,
-    marginHorizontal: 16,
+    marginHorizontal: 24,
   },
   circle: {
     width: 22,
