@@ -435,6 +435,7 @@ export interface TriagePendingTask {
   id: string;
   title: string;
   themeId: string;
+  themeName: string;
   effort: Effort;
   returnLevel: ReturnLevel;
   goalId: string | null;

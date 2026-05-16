@@ -205,7 +205,7 @@
 
 ### API — Goals & Coach
 
-- [ ] T061 [P] [US4] Implement goals service `api/src/services/goals.service.ts`: getGoals (active + graveyard), createGoal (cap enforcement with GOAL_CAP_EXCEEDED error + capScenario), createGoalWithForce, updateGoal, markHit, abandonGoal; goal deletion unlinks tasks/habits (clears goalId, keeps themeId)
+- [ ] T061 [P] [US4] Implement goals service `api/src/services/goals.service.ts`: getGoals (active + graveyard), createGoal (cap enforcement with GOAL_CAP_EXCEEDED error + capScenario), createGoalWithForce, updateGoal, markHit, abandonGoal; goal deletion unlinks tasks/habits (clears goalId, keeps themeId). **Also update `api/src/services/triage.service.ts` recap to replace hardcoded `primaryGoalTitle: null` / `tasksTowardPrimaryGoal: 0` with real data: query the user's primary goal and count completed tasks with matching `goalId` from the completed week.**
 - [ ] T062 [P] [US4] Implement `api/src/routes/goals.ts`: all goals endpoints per `contracts/api.md`
 - [ ] T063 [P] [US4] Implement AI Coach function in `api/src/services/ai.service.ts`: SSE streaming response; system prompt encodes the coach principles (force the when, distinguish milestones from habits, spot compounding opportunities, push back on vagueness, advise on 1+2 cap without enforcing it); detects conversation conclusion and emits `proposedGoal` in the `done` event
 - [ ] T064 [P] [US4] Implement `POST /v1/ai/coach` SSE streaming endpoint in `api/src/routes/ai.ts`

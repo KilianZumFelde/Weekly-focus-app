@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -12,12 +12,19 @@ import { router } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { triageService } from '../services/triage.service';
 import { tasksService } from '../services/tasks.service';
-import type { GetTriageResponse, TriagePendingTask, Task } from '@shared/types';
+import { themesService } from '../services/themes.service';
+import type { GetTriageResponse, TriagePendingTask, Task, Theme } from '@shared/types';
 
 type Frame = 'recap' | 'triage' | 'backlog' | 'done';
 
 const EFFORT_LABEL: Record<string, string> = { low: 'Low Effort', medium: 'Med Effort', high: 'High Effort' };
 const RETURN_LABEL: Record<string, string> = { low: 'Low Return', medium: 'Med Return', high: 'High Return' };
+
+interface ThemeGroup {
+  themeId: string;
+  themeName: string;
+  tasks: Task[];
+}
 
 export default function TriageScreen() {
   const insets = useSafeAreaInsets();
@@ -25,7 +32,8 @@ export default function TriageScreen() {
   const [data, setData] = useState<GetTriageResponse | null>(null);
   const [frame, setFrame] = useState<Frame>('recap');
   const [taskIndex, setTaskIndex] = useState(0);
-  const [backlogTasks, setBacklogTasks] = useState<Task[]>([]);
+  const [themeGroups, setThemeGroups] = useState<ThemeGroup[]>([]);
+  const [expandedThemes, setExpandedThemes] = useState<Set<string>>(new Set());
   const [addedToWeek, setAddedToWeek] = useState<Set<string>>(new Set());
   const pendingRef = useRef<TriagePendingTask[]>([]);
 
@@ -49,13 +57,40 @@ export default function TriageScreen() {
       setData(d);
       pendingRef.current = d.pendingTasks;
       if (!d.needsTriage || d.pendingTasks.length === 0) {
-        // Nothing to triage — close immediately
         router.back();
         return;
       }
-      // Load backlog for step 3
-      const bl = await tasksService.getBacklogTasks();
-      setBacklogTasks(bl.tasks);
+      // Load backlog + themes in parallel for step 3
+      const [bl, userThemes] = await Promise.all([
+        tasksService.getBacklogTasks(),
+        themesService.getThemes(),
+      ]);
+
+      // Build theme map ordered by sortOrder
+      const sortedThemes = [...userThemes].sort((a, b) => a.sortOrder - b.sortOrder);
+      const themeMap = new Map(sortedThemes.map((t) => [t.id, t]));
+
+      // Group backlog tasks by theme, preserving theme sort order
+      const groupMap = new Map<string, ThemeGroup>();
+      for (const task of bl.tasks) {
+        const theme = themeMap.get(task.themeId);
+        const themeId = task.themeId;
+        const themeName = theme?.name ?? 'Uncategorized';
+        if (!groupMap.has(themeId)) {
+          groupMap.set(themeId, { themeId, themeName, tasks: [] });
+        }
+        groupMap.get(themeId)!.tasks.push(task);
+      }
+
+      // Sort groups by theme sortOrder
+      const groups = [...groupMap.values()].sort((a, b) => {
+        const aOrder = themeMap.get(a.themeId)?.sortOrder ?? 999;
+        const bOrder = themeMap.get(b.themeId)?.sortOrder ?? 999;
+        return aOrder - bOrder;
+      });
+
+      setThemeGroups(groups);
+      setExpandedThemes(new Set(groups.map((g) => g.themeId)));
     } finally {
       setLoading(false);
     }
@@ -75,10 +110,22 @@ export default function TriageScreen() {
     }
   };
 
-  const handleAddToWeek = async (taskId: string) => {
-    if (addedToWeek.has(taskId)) return;
-    setAddedToWeek((prev) => new Set([...prev, taskId]));
-    await tasksService.moveTask(taskId, { weekAssignment: 'this_week' });
+  const handleToggleTask = async (taskId: string) => {
+    if (addedToWeek.has(taskId)) {
+      setAddedToWeek((prev) => { const next = new Set(prev); next.delete(taskId); return next; });
+      await tasksService.moveTask(taskId, { weekAssignment: 'backlog' });
+    } else {
+      setAddedToWeek((prev) => new Set([...prev, taskId]));
+      await tasksService.moveTask(taskId, { weekAssignment: 'this_week' });
+    }
+  };
+
+  const handleToggleTheme = (themeId: string) => {
+    setExpandedThemes((prev) => {
+      const next = new Set(prev);
+      if (next.has(themeId)) { next.delete(themeId); } else { next.add(themeId); }
+      return next;
+    });
   };
 
   const handleStartWeek = () => {
@@ -178,7 +225,11 @@ export default function TriageScreen() {
             <View style={styles.chipsRow}>
               <View style={[styles.chip, styles.chipTheme]}>
                 <Text style={[styles.chipText, styles.chipThemeText]}>
-                  {/* Theme name not in pendingTask — show effort/return only */}
+                  {currentTask.themeName}
+                </Text>
+              </View>
+              <View style={[styles.chip, styles.chipEffort]}>
+                <Text style={[styles.chipText, styles.chipEffortText]}>
                   {EFFORT_LABEL[currentTask.effort]}
                 </Text>
               </View>
@@ -240,32 +291,50 @@ export default function TriageScreen() {
           contentContainerStyle={{ paddingBottom: 128 }}
           showsVerticalScrollIndicator={false}
         >
-          {backlogTasks.length === 0 && (
+          {themeGroups.length === 0 && (
             <Text style={styles.emptyBacklog}>Your backlog is empty.</Text>
           )}
-          {backlogTasks.map((task) => {
-            const added = addedToWeek.has(task.id);
+          {themeGroups.map((group) => {
+            const expanded = expandedThemes.has(group.themeId);
             return (
-              <View key={task.id} style={[styles.backlogCard, added && styles.backlogCardAdded]}>
-                <View style={{ flex: 1, opacity: added ? 0.6 : 1 }}>
-                  <Text style={styles.backlogTaskTitle}>{task.title}</Text>
-                  <Text style={styles.backlogTaskMeta}>
-                    {EFFORT_LABEL[task.effort]} / {RETURN_LABEL[task.returnLevel]}
-                  </Text>
-                </View>
-                {added ? (
-                  <View style={styles.addedBadge}>
-                    <Text style={styles.addedText}>Added ✓</Text>
-                  </View>
-                ) : (
-                  <TouchableOpacity
-                    style={styles.addButton}
-                    onPress={() => void handleAddToWeek(task.id)}
-                    activeOpacity={0.8}
-                  >
-                    <Text style={styles.addButtonText}>+</Text>
-                  </TouchableOpacity>
-                )}
+              <View key={group.themeId} style={styles.themeGroup}>
+                <TouchableOpacity
+                  style={styles.themeHeader}
+                  onPress={() => handleToggleTheme(group.themeId)}
+                  activeOpacity={0.7}
+                >
+                  <Text style={styles.themeChevron}>{expanded ? '▾' : '▸'}</Text>
+                  <Text style={styles.themeHeaderName}>{group.themeName}</Text>
+                  <Text style={styles.themeCount}>{group.tasks.length}</Text>
+                </TouchableOpacity>
+
+                {expanded && group.tasks.map((task) => {
+                  const added = addedToWeek.has(task.id);
+                  return (
+                    <TouchableOpacity
+                      key={task.id}
+                      style={[styles.backlogCard, added && styles.backlogCardAdded]}
+                      onPress={() => void handleToggleTask(task.id)}
+                      activeOpacity={0.8}
+                    >
+                      <View style={{ flex: 1, opacity: added ? 0.6 : 1 }}>
+                        <Text style={styles.backlogTaskTitle}>{task.title}</Text>
+                        <Text style={styles.backlogTaskMeta}>
+                          {EFFORT_LABEL[task.effort]} / {RETURN_LABEL[task.returnLevel]}
+                        </Text>
+                      </View>
+                      {added ? (
+                        <View style={styles.addedBadge}>
+                          <Text style={styles.addedText}>Added ✓</Text>
+                        </View>
+                      ) : (
+                        <View style={styles.addButton}>
+                          <Text style={styles.addButtonText}>+</Text>
+                        </View>
+                      )}
+                    </TouchableOpacity>
+                  );
+                })}
               </View>
             );
           })}
@@ -490,6 +559,8 @@ const styles = StyleSheet.create({
   },
   chipTheme: { backgroundColor: 'rgba(192,202,172,0.1)' },
   chipThemeText: { color: C.secondary },
+  chipEffort: { backgroundColor: 'rgba(220,192,187,0.1)' },
+  chipEffortText: { color: C.onSurfaceVariant },
   chipReturn: { backgroundColor: 'rgba(233,193,118,0.1)' },
   chipReturnText: { color: C.tertiary },
   actionStack: {
@@ -575,11 +646,38 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 32,
   },
+  themeGroup: {
+    marginBottom: 8,
+  },
+  themeHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    gap: 8,
+  },
+  themeChevron: {
+    fontSize: 14,
+    color: C.onSurfaceVariant,
+    width: 14,
+  },
+  themeHeaderName: {
+    flex: 1,
+    fontSize: 14,
+    fontWeight: '500',
+    color: C.onSurfaceVariant,
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
+  },
+  themeCount: {
+    fontSize: 12,
+    color: C.onSurfaceVariant,
+    opacity: 0.6,
+  },
   backlogCard: {
     backgroundColor: C.surface,
     borderRadius: 12,
     padding: 16,
-    marginBottom: 16,
+    marginBottom: 8,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
@@ -587,7 +685,7 @@ const styles = StyleSheet.create({
   backlogCardAdded: {
     backgroundColor: 'rgba(44,41,39,0.4)',
     borderWidth: 1,
-    borderColor: 'rgba(192,202,172,0.1)',
+    borderColor: 'rgba(192,202,172,0.2)',
   },
   backlogTaskTitle: {
     fontSize: 18,

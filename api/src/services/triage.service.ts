@@ -1,6 +1,6 @@
 import { eq, and, lt } from 'drizzle-orm';
 import { db } from '../db/index.js';
-import { tasks, habits, habitWeekRecords, weekRecords, userProfiles } from '../db/schema.js';
+import { tasks, habits, habitWeekRecords, weekRecords, userProfiles, themes } from '../db/schema.js';
 
 export async function getTriageData(userId: string) {
   const [profile] = await db
@@ -31,6 +31,9 @@ export async function getTriageData(userId: string) {
   if (pending.length === 0) {
     return { needsTriage: false, recap: null, pendingTasks: [] };
   }
+
+  const userThemes = await db.select({ id: themes.id, name: themes.name }).from(themes).where(eq(themes.userId, userId));
+  const themeMap = new Map(userThemes.map((t) => [t.id, t.name]));
 
   // Build recap from the completed week (the week before lastWeekStart)
   const completedWeekStart = previousSunday(lastWeekStart);
@@ -120,6 +123,7 @@ export async function getTriageData(userId: string) {
       id: t.id,
       title: t.title,
       themeId: t.themeId,
+      themeName: themeMap.get(t.themeId) ?? 'Unknown',
       effort: t.effort,
       returnLevel: t.returnLevel,
       goalId: t.goalId,
