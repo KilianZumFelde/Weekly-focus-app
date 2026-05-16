@@ -11,20 +11,41 @@
       "backgroundColor": "#121212"
     },
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": false,
+      "infoPlist": {
+        "NSSpeechRecognitionUsageDescription": "Allow Weekly Focus to use speech recognition for voice capture.",
+        "NSMicrophoneUsageDescription": "Allow Weekly Focus to use the microphone for voice capture."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#121212"
       },
-      "googleServicesFile": "./google-services.json"
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.kzff.weeklyfocus"
     },
     "plugins": [
       "expo-router",
-      "expo-notifications"
+      "expo-notifications",
+      "expo-dev-client",
+      [
+        "expo-speech-recognition",
+        {
+          "microphonePermission": "Allow Weekly Focus to use the microphone for voice capture.",
+          "speechRecognitionPermission": "Allow Weekly Focus to use speech recognition for voice capture."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "3d32d633-d8bb-49c9-b061-c18ad6f6b282"
+      }
     }
   }
 }

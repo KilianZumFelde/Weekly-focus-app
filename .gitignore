@@ -24,8 +24,6 @@ ios/
 *.orig.*
 web-build/
 
-# EAS
-eas.json
 
 # Drizzle migrations snapshots (keep migrations, not meta only)
 # api/src/db/migrations/meta/

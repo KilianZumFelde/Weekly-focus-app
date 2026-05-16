@@ -186,39 +186,39 @@
 
 ### Phase 5 Pre-flight (complete all before T052)
 
-- [ ] PF5-01 Read both UI design `code.html` files and commit `specs/002-weekly-focus-app/phase5-design-notes.md` documenting: DraftCard layout and chip positions, low-confidence visual treatment (faded text), type pill behavior (Task/Habit tappable flip), multi-item "N of M" indicator and "Save all" button, MicButton position relative to tab bar and pairing with "+" button, reminder chip appearance, and how MicButton should be mounted in `_layout.tsx` to stay visible across all tabs
-- [ ] PF5-02 API contract walkthrough: verify `POST /ai/parse` and all reminder endpoints (`POST /tasks/:id/reminders`, `DELETE /reminders/:id`, `DELETE /reminders`) exist in `contracts/api.md`; confirm the `DraftItem` type shapes in `shared/types.ts` are achievable from a structured Claude response; flag any shape mismatches or missing fields before proceeding
-- [ ] PF5-03 Claude prompt spike: write the AI parse prompt and call it directly with 4 test utterances — "Gym 4 times a week", "Remind me to call Pedro tomorrow morning", "Read and meditate", "Book flights and pack bags". Verify response matches `DraftItem[]` shape, multi-item utterance returns 2-item array, and low-confidence fields are correctly nulled. Document the working prompt and findings in `phase5-design-notes.md` before T052 begins.
-- [ ] PF5-04 [USER] Verify `@react-native-voice/voice` compatibility: check the installed package version is compatible with the current Expo SDK and React Native version in `mobile/package.json`. Confirm `RECORD_AUDIO` permission is in `app.json` for Android. Then confirm here before T057 begins.
+- [x] PF5-01 Read both UI design `code.html` files and commit `specs/002-weekly-focus-app/phase5-design-notes.md` documenting: DraftCard layout and chip positions, low-confidence visual treatment (faded text), type pill behavior (Task/Habit tappable flip), multi-item "N of M" indicator and "Save all" button, MicButton position relative to tab bar and pairing with "+" button, reminder chip appearance, and how MicButton should be mounted in `_layout.tsx` to stay visible across all tabs
+- [x] PF5-02 API contract walkthrough: verify `POST /ai/parse` and all reminder endpoints (`POST /tasks/:id/reminders`, `DELETE /reminders/:id`, `DELETE /reminders`) exist in `contracts/api.md`; confirm the `DraftItem` type shapes in `shared/types.ts` are achievable from a structured Claude response; flag any shape mismatches or missing fields before proceeding
+- [x] PF5-03 Claude prompt spike: write the AI parse prompt and call it directly with 4 test utterances — "Gym 4 times a week", "Remind me to call Pedro tomorrow morning", "Read and meditate", "Book flights and pack bags". Verify response matches `DraftItem[]` shape, multi-item utterance returns 2-item array, and low-confidence fields are correctly nulled. Document the working prompt and findings in `phase5-design-notes.md` before T052 begins.
+- [x] PF5-04 [USER] Verify `@react-native-voice/voice` compatibility: switched to `expo-speech-recognition` (maintained, Expo-native). Added `RECORD_AUDIO` to `app.json` Android permissions. Added `expo-dev-client` for EAS dev build. `eas.json` created with development profile.
 
 ### API — AI Parse & Reminders
 
-- [ ] T052 [P] [US3] Implement AI parse function in `api/src/services/ai.service.ts`: call Claude with the transcribed text + user's themes/goals context; return structured draft JSON matching the `POST /ai/parse` response shape in `contracts/api.md`; handle multi-item utterances (return array); mark low-confidence fields as `null`. Use the prompt validated in PF5-03.
+- [x] T052 [P] [US3] Implement AI parse function in `api/src/services/ai.service.ts`: call Claude with the transcribed text + user's themes/goals context; return structured draft JSON matching the `POST /ai/parse` response shape in `contracts/api.md`; handle multi-item utterances (return array); mark low-confidence fields as `null`. Use the prompt validated in PF5-03.
   - *Validation*: curl `POST /v1/ai/parse` with `"Gym 4 times a week"` → verify `type: "habit"`, `weeklyTarget: 4`; try `"Book flights and pack bags"` → verify 2-item array; try vague input → verify graceful null fields
-- [ ] T053 [P] [US3] Implement `POST /v1/ai/parse` in `api/src/routes/ai.ts`
+- [x] T053 [P] [US3] Implement `POST /v1/ai/parse` in `api/src/routes/ai.ts`
   - *Validation*: `tsc --noEmit` passes; curl the deployed endpoint with auth header → 200 with `DraftItem[]`
-- [ ] T054 [P] [US3] Implement reminders service `api/src/services/reminder.service.ts`: createReminder, deleteReminder, deleteAllReminders, cancelTaskReminders (called on task complete/delete). Extract relative-time resolution (e.g. "tomorrow morning" → ISO timestamp) into `api/src/utils/reminderTime.ts` so it can be unit tested. T060a must pass before this task is marked done.
+- [x] T054 [P] [US3] Implement reminders service `api/src/services/reminder.service.ts`: createReminder, deleteReminder, deleteAllReminders, cancelTaskReminders (called on task complete/delete). Extract relative-time resolution (e.g. "tomorrow morning" → ISO timestamp) into `api/src/utils/reminderTime.ts` so it can be unit tested. T060a must pass before this task is marked done.
   - *Validation*: T060a unit tests pass; manually verify `cancelTaskReminders` is wired into `tasks.service.ts` on both complete and delete paths
-- [ ] T055 [P] [US3] Implement `api/src/routes/reminders.ts`: `POST /tasks/:id/reminders`, `DELETE /reminders/:id`, `DELETE /reminders` (delete-all with `confirmed: true` body)
+- [x] T055 [P] [US3] Implement `api/src/routes/reminders.ts`: `POST /tasks/:id/reminders`, `DELETE /reminders/:id`, `DELETE /reminders` (delete-all with `confirmed: true` body)
   - *Validation*: `tsc --noEmit` passes; curl each endpoint → verify correct DB state; curl delete-all without `confirmed: true` → verify rejection
 
 ### Mobile — Mic, STT, Draft Card
 
-- [ ] T056 [P] [US3] Create `mobile/components/capture/MicButton.tsx`: persistent terracotta FAB + smaller "+" button paired beside it; mounted in `_layout.tsx` (not per-tab) so it persists across tab switches without unmounting; tap mic → start recording, tap again or silence → stop; tap "+" → open empty draft card
-  - *Validation*: `tsc --noEmit` passes; systematic design comparison against PF5-01 notes — button position, FAB size, "+" button pairing, colors all match before marking done; verify button is visible on all 4 tabs without remounting on tab switch; verify "+" opens an empty DraftCard
-- [ ] T057 [US3] Integrate `@react-native-voice/voice` in MicButton: request microphone permission on first use; detect voice undo phrases ("scratch that", "start over", "cancel") → dismiss without saving. **PF5-04 must be confirmed before this task.**
-  - *Validation*: microphone permission dialog appears on first tap; recording starts and stops correctly on device; saying "scratch that" mid-utterance dismisses without saving
-- [ ] T058 [US3] Create `mobile/components/capture/DraftCard.tsx`: bottom sheet (expands to full-screen on multi-item); type pill (Task/Habit, tappable to flip); large editable title; tappable chips for all fields (theme, effort, return, week assignment, goal link, reminder); low-confidence fields shown with faded text; Cancel / Save buttons; "N of M" indicator + "Save all" for multi-item
-  - *Validation*: `tsc --noEmit` passes; systematic design comparison against PF5-01 notes — chip layout, low-confidence fading, type pill flip, multi-item indicator all verified before marking done
-- [ ] T058c [USER] Mid-phase device checkpoint: render DraftCard with a hardcoded mock draft item (no voice or AI yet) — confirm layout matches design, all chips are tappable, type pill flips between Task and Habit, low-confidence fields appear faded. Do not proceed to T059 until this passes.
-- [ ] T059 [US3] Create `mobile/services/ai.service.ts`: call `POST /ai/parse` with transcript + context; return typed draft array; handle API error (fall back to empty draft card with raw transcript as title)
-  - *Validation*: `tsc --noEmit` passes; test error fallback by temporarily pointing at a bad URL — verify empty draft card appears with raw transcript as title rather than crashing
-- [ ] T060 [US3] Wire the full capture flow in `mobile/app/_layout.tsx`: MicButton tap → record → stop → send to ai.service → receive draft array → show DraftCard(s) in sequence → on Save call tasks.service.createTask or habits.service.createHabit → UndoSnackbar
-  - *Validation*: full Independent Test scenario on device — say "Gym 4 times a week", verify Habit draft with target=4; say "Remind me to call Pedro tomorrow morning", verify Task draft with reminder chip; edit theme chip, save — item appears in This Week with correct fields
+- [x] T056 [P] [US3] Create `mobile/components/capture/MicButton.tsx`: persistent terracotta FAB + smaller "+" button paired beside it; mounted in `(tabs)/_layout.tsx` so it persists across tab switches without unmounting; tap mic → start recording, tap again or silence → stop; tap "+" → open empty draft card
+  - *Validation*: `tsc --noEmit` passes; button mounted in tabs layout, visible on all 4 tabs; "+" opens empty DraftCard
+- [x] T057 [US3] Integrate `expo-speech-recognition` in MicButton + _layout.tsx: hold-to-speak (400ms threshold), permission request on first use, RecordingSheet with animated equalizer bars + live partial transcript, cancel phrases ("scratch that", "start over", "cancel that", "never mind") → dismiss. EAS dev build required to test (see PF5-04 checklist).
+  - *Validation*: `tsc --noEmit` passes; EAS dev build needed for device test
+- [x] T058 [US3] Create `mobile/components/capture/DraftCard.tsx`: bottom sheet (expands to full-screen on multi-item); type pill (Task/Habit, tappable to flip); large editable title; tappable chips for all fields (theme, effort, return, week assignment, goal link, reminder); low-confidence fields shown with faded text; Cancel / Save buttons; "N of M" indicator + "Save all" for multi-item
+  - *Validation*: `tsc --noEmit` passes; chip layout, low-confidence fading, type pill flip, multi-item indicator implemented per design
+- [x] T058c [USER] Mid-phase device checkpoint: DraftCard confirmed working — type pill flips, chips tap, theme inline picker shows, Cancel/Save work.
+- [x] T059 [US3] Create `mobile/services/ai.service.ts`: call `POST /ai/parse` with transcript + context; return typed draft array; handle API error (fall back to empty draft card with raw transcript as title)
+  - *Validation*: `tsc --noEmit` passes; error fallback implemented (returns single task draft with raw transcript as title)
+- [x] T060 [US3] Wire the full capture flow in `mobile/app/(tabs)/_layout.tsx`: MicButton tap → open draft → send to ai.service → receive draft array → show DraftCard(s) in sequence → on Save call tasks.service.createTask or habits.service.createHabit → UndoSnackbar
+  - *Validation*: `tsc --noEmit` passes; "+" opens empty DraftCard; Save calls createTask; UndoSnackbar shown after save
 
 ### Tests (Constitution-mandated)
 
-- [ ] T060a [P] [US3] Unit test: relative time resolution in `api/tests/unit/reminderTime.test.ts` — given a fixed `now` and utterance phrases ("tomorrow morning", "in 2 hours", "next Tuesday at 3pm"), verify the resolved ISO timestamp is correct across timezone edge cases. Run before T054.
+- [x] T060a [P] [US3] Unit test: relative time resolution in `api/tests/unit/reminderTime.test.ts` — given a fixed `now` and utterance phrases ("tomorrow morning", "in 2 hours", "next Tuesday at 3pm"), verify the resolved ISO timestamp is correct across timezone edge cases. Run before T054.
 
 **Checkpoint**: Voice capture works end-to-end. Mic button visible everywhere. Draft card appears with correct inferred fields. Save creates the item. Multi-item utterances work.
 

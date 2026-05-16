@@ -8,6 +8,8 @@ import themes from './routes/themes.js';
 import tasksRoute from './routes/tasks.js';
 import habitsRoute from './routes/habits.js';
 import triageRoute from './routes/triage.js';
+import aiRoute from './routes/ai.js';
+import { taskRemindersRoute, remindersRoute } from './routes/reminders.js';
 
 const app = new Hono().basePath('/v1');
 
@@ -23,6 +25,9 @@ app.route('/themes', themes);
 app.route('/tasks', tasksRoute);
 app.route('/habits', habitsRoute);
 app.route('/tasks', triageRoute);
+app.route('/tasks', taskRemindersRoute);
+app.route('/reminders', remindersRoute);
+app.route('/ai', aiRoute);
 
 const port = Number(process.env['PORT'] ?? 3000);
 serve({ fetch: app.fetch, port }, () => {

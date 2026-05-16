@@ -42,12 +42,12 @@ export function TaskDetailSheet({ task, visible, themes, onClose, onSave, onDele
 
   const cycleEffort = () => {
     const idx = EFFORT_OPTIONS.indexOf(effort);
-    setEffort(EFFORT_OPTIONS[(idx + 1) % EFFORT_OPTIONS.length]);
+    setEffort(EFFORT_OPTIONS[(idx + 1) % EFFORT_OPTIONS.length] ?? 'medium');
   };
 
   const cycleReturn = () => {
     const idx = RETURN_OPTIONS.indexOf(returnLevel);
-    setReturnLevel(RETURN_OPTIONS[(idx + 1) % RETURN_OPTIONS.length]);
+    setReturnLevel(RETURN_OPTIONS[(idx + 1) % RETURN_OPTIONS.length] ?? 'medium');
   };
 
   const toggleWeekAssignment = () => {

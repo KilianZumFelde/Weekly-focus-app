@@ -124,10 +124,10 @@ export default function ThisWeekScreen() {
     const groups: Record<string, Task[]> = {};
     for (const task of openTasks) {
       if (!groups[task.themeId]) groups[task.themeId] = [];
-      groups[task.themeId].push(task);
+      (groups[task.themeId] as Task[]).push(task);
     }
     for (const tid in groups) {
-      groups[tid].sort((a, b) =>
+      (groups[tid] as Task[]).sort((a, b) =>
         (SCORE_ORDER[a.priorityScore ?? 'medium'] ?? 2) - (SCORE_ORDER[b.priorityScore ?? 'medium'] ?? 2),
       );
     }
