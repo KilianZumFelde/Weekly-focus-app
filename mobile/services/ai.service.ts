@@ -5,7 +5,8 @@ export const aiService = {
   parseTranscript: async (body: AiParseBody): Promise<AiParseResponse> => {
     try {
       return await api.post<AiParseResponse>('/ai/parse', body);
-    } catch {
+    } catch (err) {
+      console.error('[aiService] parseTranscript failed:', err);
       // Fallback: empty draft card with raw transcript as title
       const fallback: DraftItem = {
         type: 'task',

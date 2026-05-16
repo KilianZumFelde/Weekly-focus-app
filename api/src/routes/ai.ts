@@ -15,8 +15,13 @@ const parseBodySchema = z.object({
 
 ai.post('/parse', zValidator('json', parseBodySchema), async (c) => {
   const body = c.req.valid('json');
-  const result = await parseTranscript(body);
-  return c.json(result);
+  try {
+    const result = await parseTranscript(body);
+    return c.json(result);
+  } catch (err) {
+    console.error('[ai/parse] parseTranscript error:', err);
+    return c.json({ error: String(err), code: 'AI_PARSE_FAILED' }, 500);
+  }
 });
 
 export default ai;

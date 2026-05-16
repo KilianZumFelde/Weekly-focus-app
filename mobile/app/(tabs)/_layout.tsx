@@ -64,6 +64,7 @@ export default function TabsLayout() {
       return;
     }
 
+    if (resultReceivedRef.current) return; // ignore duplicate final results
     resultReceivedRef.current = true;
     setSpeechDetected(false);
     setPartialTranscript('');
