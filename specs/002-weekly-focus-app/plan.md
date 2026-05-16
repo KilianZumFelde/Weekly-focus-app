@@ -26,7 +26,7 @@ confirmation. All business logic lives in the API — the mobile app is a pure c
 **Language/Version**: TypeScript 5.x — strict mode, both mobile and API
 **Primary Dependencies**:
 - Mobile: Expo SDK (latest stable), Expo Router, @supabase/supabase-js,
-  @react-native-voice/voice, expo-notifications
+  @react-native-voice/voice, expo-notifications, react-native-svg
 - API: Hono, Drizzle ORM, @supabase/supabase-js (JWT verification),
   @anthropic-ai/sdk, Zod
 - Shared: TypeScript types only (no runtime dependency)
@@ -168,17 +168,23 @@ specs/002-weekly-focus-app/
 │                                    # (imported by both mobile and api)
 │
 └── .UI/                             # UI design references (read-only)
-    ├── this_week/screen.png         # Reference for This Week screen
-    ├── backlog/screen.png
-    ├── goals/screen.png
-    ├── stats/screen.png
-    ├── quick_add_draft_card/screen.png
-    ├── triage_*/screen.png          # Triage ritual frames
-    ├── habit_detail_edit/screen.png
-    ├── task_detail_edit_cleaned/screen.png
-    ├── add_goal_form/screen.png
-    ├── goal_coach_*/screen.png
+    ├── this_week/code.html          # Reference for This Week screen
+    ├── backlog/code.html
+    ├── goals/code.html
+    ├── stats/code.html
+    ├── quick_add_draft_card/code.html
+    ├── quick_add_interactive_entry_state/code.html
+    ├── triage_last_week_recap/code.html
+    ├── triage_task_1_of_3/code.html
+    ├── triage_stock_this_week/code.html
+    ├── triage_completion_confirmation/code.html
+    ├── habit_detail_edit/code.html
+    ├── task_detail_edit_cleaned/code.html
+    ├── add_goal_form/code.html
+    ├── goal_coach_minimal_input_layout/code.html
     └── DESIGN.md                    # Analog Digital design system (authoritative)
+    # Note: design files are Tailwind HTML — use these as the authoritative source,
+    # not PNGs. The spec overrides the design where they conflict.
 ```
 
 **Structure Decision**: Mobile + API monorepo (Option 3 variant). Two top-level
@@ -196,19 +202,20 @@ from the spec alone.
 
 | Screen | Design file | Notes |
 |--------|-------------|-------|
-| This Week | `.UI/this_week/` | |
-| Backlog | `.UI/backlog/` | |
-| Goals | `.UI/goals/` | |
-| Stats | `.UI/stats/` | |
-| Quick Add Draft Card | `.UI/quick_add_draft_card/` | |
-| Carry-Over Recap | `.UI/triage_last_week_recap/` | |
-| Carry-Over Triage | `.UI/triage_task_1_of_3/` | |
-| Pull from Backlog | `.UI/triage_stock_this_week/` | |
-| Triage Complete | `.UI/triage_completion_confirmation/` | |
-| Habit Detail | `.UI/habit_detail_edit/` | |
-| Task Detail | `.UI/task_detail_edit_cleaned/` | |
-| Add Goal Form | `.UI/add_goal_form/` | |
-| Goal Coach | `.UI/goal_coach_*/` | Partial — spec supplements |
+| This Week | `.UI/this_week/code.html` | |
+| Backlog | `.UI/backlog/code.html` | |
+| Goals | `.UI/goals/code.html` | |
+| Stats | `.UI/stats/code.html` | |
+| Quick Add Draft Card | `.UI/quick_add_draft_card/code.html` | |
+| Quick Add Entry State | `.UI/quick_add_interactive_entry_state/code.html` | |
+| Carry-Over Recap | `.UI/triage_last_week_recap/code.html` | |
+| Carry-Over Triage | `.UI/triage_task_1_of_3/code.html` | |
+| Pull from Backlog | `.UI/triage_stock_this_week/code.html` | |
+| Triage Complete | `.UI/triage_completion_confirmation/code.html` | |
+| Habit Detail | `.UI/habit_detail_edit/code.html` | |
+| Task Detail | `.UI/task_detail_edit_cleaned/code.html` | |
+| Add Goal Form | `.UI/add_goal_form/code.html` | |
+| Goal Coach | `.UI/goal_coach_minimal_input_layout/code.html` | Partial — spec supplements |
 | Settings | — | Spec only |
 | Themes Management | — | Spec only |
 | Reminders | — | Spec only |

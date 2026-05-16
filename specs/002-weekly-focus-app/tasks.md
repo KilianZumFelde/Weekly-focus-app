@@ -97,6 +97,17 @@
 
 **Checkpoint**: This Week screen works end-to-end. Tasks complete, habits increment, undo works, detail sheets open and save.
 
+### Post-Phase 3 Bug Fixes & UI Polish
+
+- [x] BF01 Fix progress ring: replaced CSS rotation technique (broken — rotating a symmetric circle produces no visible change) with `react-native-svg` `strokeDashoffset` — ring now correctly fills clockwise; added `react-native-svg ~15.11.2` to `mobile/package.json`
+- [x] BF02 Add `decrementCount` to `api/src/services/habits.service.ts` + `POST /habits/:id/decrement` route — enables real server-side undo for habit increments
+- [x] BF03 Fix undo handler in `index.tsx`: calls real `decrementCount` endpoint instead of optimistic revert (eliminated count-skipping bug where undo → next tap jumped 2 counts)
+- [x] BF04 Fix pause toggle in `HabitDetailSheet.tsx`: add local `isPaused` state updated optimistically on toggle press (previously only reflected after parent reload)
+- [x] BF05 Fix `getHabits` to include paused habits — changed `eq(habits.status, 'active')` to `inArray(habits.status, ['active', 'paused'])` so paused habits remain visible and resumable
+- [x] BF06 Fix `updateHabit` to sync `targetAtTime` on the current week record when `weeklyTarget` changes — ring denominator now updates immediately after closing detail sheet
+- [x] BF07 Move theme section chevron from right to left (matching design): reorder `themeHeader` children in `index.tsx`
+- [x] BF08 Align horizontal margins to 24px gutter: `themeHeader.paddingHorizontal`, `doneSection.marginHorizontal` in `index.tsx`, `card.marginHorizontal` in `TaskCard.tsx` (previously 16px, misaligned with "Habits"/"Tasks" labels)
+
 ---
 
 ## Phase 4: User Story 2 — Weekly Carry-Over Ritual (Priority: P1)
