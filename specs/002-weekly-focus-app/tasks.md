@@ -127,41 +127,41 @@
 
 ### Phase 4 Pre-flight (complete all before T043)
 
-- [ ] PF4-01 Read all 4 triage design files and commit `specs/002-weekly-focus-app/phase4-design-notes.md` documenting per frame: layout structure, exact margins, button labels and order, progress indicator format, interactive states, animation style between frames, and any RN-specific implementation notes (modal presentation style, back-button behaviour)
-- [ ] PF4-02 API contract walkthrough: for every user action in the triage flow (open ritual, triage keep/backlog/drop, pull from backlog, complete), confirm the endpoint exists in `contracts/api.md`, note idempotency behaviour, and flag any missing endpoint. Record gaps as inline notes here before proceeding.
-- [ ] PF4-03 [USER] Seed test data via API: create 3 open tasks dated to last week so the independent test scenario is runnable from day one. Confirm the data is in place before continuing.
+- [x] PF4-01 Read all 4 triage design files and commit `specs/002-weekly-focus-app/phase4-design-notes.md` documenting per frame: layout structure, exact margins, button labels and order, progress indicator format, interactive states, animation style between frames, and any RN-specific implementation notes (modal presentation style, back-button behaviour)
+- [x] PF4-02 API contract walkthrough: for every user action in the triage flow (open ritual, triage keep/backlog/drop, pull from backlog, complete), confirm the endpoint exists in `contracts/api.md`, note idempotency behaviour, and flag any missing endpoint. Record gaps as inline notes here before proceeding.
+- [x] PF4-03 [USER] Seed test data via API: create 3 open tasks dated to last week so the independent test scenario is runnable from day one. Confirm the data is in place before continuing.
 
 ### API — Week Flip & Triage
 
-- [ ] T043 [US2] Implement week flip service `api/src/services/weekFlip.service.ts`: create WeekRecord for completed week; archive done tasks (status→archived, archivedWeekStart set); update habit streaks (increment if target met, reset to 0 if missed, skip if paused); create new HabitWeekRecords for active habits; update `lastWeekStart` on user profile; idempotent (safe to call twice)
+- [x] T043 [US2] Implement week flip service `api/src/services/weekFlip.service.ts`: create WeekRecord for completed week; archive done tasks (status→archived, archivedWeekStart set); update habit streaks (increment if target met, reset to 0 if missed, skip if paused); create new HabitWeekRecords for active habits; update `lastWeekStart` on user profile; idempotent (safe to call twice)
   - *Validation*: T050 + T051 unit tests must pass first; after deploy curl `POST /v1/internal/week-flip` twice with same user — verify second call is a no-op; verify streak incremented for met habit and reset for missed
-- [ ] T044 [US2] Implement `POST /v1/internal/week-flip` in `api/src/routes/internal.ts`; reads user timezone from `X-User-Timezone` header; validates that a flip is actually due before executing
+- [x] T044 [US2] Implement `POST /v1/internal/week-flip` in `api/src/routes/internal.ts`; reads user timezone from `X-User-Timezone` header; validates that a flip is actually due before executing
   - *Validation*: curl with correct timezone header → 200; curl when flip not due → verify rejection; curl without header → verify UTC fallback
-- [ ] T045 [US2] Implement triage service + routes: `GET /tasks/triage` (returns recap + pendingTasks); `POST /tasks/:id/triage` with `action: keep | backlog | drop` in `api/src/routes/triage.ts`
+- [x] T045 [US2] Implement triage service + routes: `GET /tasks/triage` (returns recap + pendingTasks); `POST /tasks/:id/triage` with `action: keep | backlog | drop` in `api/src/routes/triage.ts`
   - *Validation*: curl `GET /tasks/triage` with seeded data → verify `needsTriage: true` and correct pending task list; curl `POST` with each of the 3 actions → verify task status change; curl triage on already-triaged task → verify idempotent
 
 ### Mobile — Week Flip Hook & Triage Screen
 
-- [ ] T046 [US2] Create `mobile/hooks/useWeekFlip.ts`: on app foreground, compare current local Sunday to `lastWeekStart` from user profile; if a new Sunday has passed, call `POST /internal/week-flip` with `X-User-Timezone` header
+- [x] T046 [US2] Create `mobile/hooks/useWeekFlip.ts`: on app foreground, compare current local Sunday to `lastWeekStart` from user profile; if a new Sunday has passed, call `POST /internal/week-flip` with `X-User-Timezone` header
   - *Validation*: `tsc --noEmit` passes; verify timezone is read from device (`Intl.DateTimeFormat().resolvedOptions().timeZone`), not hardcoded
-- [ ] T047a [US2] Design review: read all 4 triage `code.html` files and document exact RN implementation decisions — frame layout, button labels and positions, progress indicator format ("N of M"), transition animation between frames, how modal is dismissed (completion only, not back button). These notes drive T047b.
-- [ ] T047b [US2] Implement `mobile/app/triage.tsx` (full-screen modal, 4 frames in sequence):
+- [x] T047a [US2] Design review: read all 4 triage `code.html` files and document exact RN implementation decisions — frame layout, button labels and positions, progress indicator format ("N of M"), transition animation between frames, how modal is dismissed (completion only, not back button). These notes drive T047b.
+- [x] T047b [US2] Implement `mobile/app/triage.tsx` (full-screen modal, 4 frames in sequence):
   1. Recap frame: last week's task fraction, habit fraction, streak deltas; single "Review leftovers →" button
   2. Per-task triage: progress indicator ("N of M"); large task card; exactly 3 buttons (Keep / Send to backlog / Drop); no skip affordance, no swipe-to-dismiss
   3. Pull-from-backlog: scrollable backlog list; tap to add; "Start week" always enabled
   4. Completion confirmation then close
   - *Validation*: `tsc --noEmit` passes; systematic design comparison against T047a notes — layout, button order, progress text, margin values, back-button lock all verified before marking done
 - [ ] T047c [USER] Mid-phase device checkpoint: open the app with seeded data (PF4-03), trigger the triage flow, confirm recap frame renders correctly and per-task frame shows the right task with 3 buttons and no skip. Do not proceed to T048 until this passes.
-- [ ] T048 [US2] Wire triage modal to block This Week: in `mobile/app/_layout.tsx`, after week flip check, call `GET /tasks/triage`; if `needsTriage: true`, show triage modal before rendering tabs
+- [x] T048 [US2] Wire triage modal to block This Week: in `mobile/app/_layout.tsx`, after week flip check, call `GET /tasks/triage`; if `needsTriage: true`, show triage modal before rendering tabs
   - *Validation*: `tsc --noEmit` passes; curl `GET /tasks/triage` with no pending tasks → verify `needsTriage: false`; confirm tabs render normally in that state
 
 ### Tests (Constitution-mandated)
 
-- [ ] T049 [P] [US2] Integration test: Sunday flip in `api/tests/integration/weekFlip.test.ts` — create habit with target 4, set count to 4, trigger flip: verify streak increments; create second habit with count 2 (missed), trigger flip: verify streak resets to 0; verify done tasks archive; verify paused habit streak unchanged
+- [x] T049 [P] [US2] Integration test: Sunday flip in `api/tests/integration/weekFlip.test.ts` — create habit with target 4, set count to 4, trigger flip: verify streak increments; create second habit with count 2 (missed), trigger flip: verify streak resets to 0; verify done tasks archive; verify paused habit streak unchanged
   - *Validation*: `npm test` in `api/` — all assertions pass, no DB state leaking between tests
-- [ ] T050 [P] [US2] Unit test: streak logic in `api/tests/unit/streakLogic.test.ts` — target met → increment; target missed → reset; over-target → increment; paused → unchanged
+- [x] T050 [P] [US2] Unit test: streak logic in `api/tests/unit/streakLogic.test.ts` — target met → increment; target missed → reset; over-target → increment; paused → unchanged
   - *Validation*: `npm test` passes — run before T043
-- [ ] T051 [P] [US2] Unit test: week boundary date arithmetic in `api/tests/unit/dateArithmetic.test.ts` — given a timestamp in various timezones, verify the correct Sunday start date is computed
+- [x] T051 [P] [US2] Unit test: week boundary date arithmetic in `api/tests/unit/dateArithmetic.test.ts` — given a timestamp in various timezones, verify the correct Sunday start date is computed
   - *Validation*: `npm test` passes — run before T043
 
 **Checkpoint**: Sunday ritual works end-to-end. Flip archives tasks, updates streaks. Triage blocks the app until complete. Pull-from-backlog is optional.

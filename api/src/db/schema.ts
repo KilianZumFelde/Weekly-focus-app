@@ -98,12 +98,13 @@ export const habits = pgTable('habits', {
 // ─── habit_week_records ───────────────────────────────────────────────────────
 
 export const habitWeekRecords = pgTable('habit_week_records', {
-  id:            uuid('id').primaryKey().defaultRandom(),
-  habitId:       uuid('habit_id').notNull(),
-  weekStart:     date('week_start').notNull(),
-  countAchieved: integer('count_achieved').notNull().default(0),
-  targetAtTime:  integer('target_at_time').notNull(),
-  createdAt:     timestamp('created_at').defaultNow().notNull(),
+  id:              uuid('id').primaryKey().defaultRandom(),
+  habitId:         uuid('habit_id').notNull(),
+  weekStart:       date('week_start').notNull(),
+  countAchieved:   integer('count_achieved').notNull().default(0),
+  targetAtTime:    integer('target_at_time').notNull(),
+  streakBefore:    integer('streak_before'),   // set during flip; used by triage recap
+  createdAt:       timestamp('created_at').defaultNow().notNull(),
 }, (t) => ({
   uniqueHabitWeek: unique().on(t.habitId, t.weekStart),
 }));

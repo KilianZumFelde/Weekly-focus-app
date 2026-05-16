@@ -8,6 +8,13 @@
       "when": 1778866896799,
       "tag": "0000_noisy_silver_fox",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1778922783836,
+      "tag": "0001_ambitious_talos",
+      "breakpoints": true
     }
   ]
 }

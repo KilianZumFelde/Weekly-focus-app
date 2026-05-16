@@ -1,0 +1,1 @@
+ALTER TABLE "habit_week_records" ADD COLUMN "streak_before" integer;

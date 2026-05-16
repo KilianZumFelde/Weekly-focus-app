@@ -7,6 +7,7 @@ import users from './routes/users.js';
 import themes from './routes/themes.js';
 import tasksRoute from './routes/tasks.js';
 import habitsRoute from './routes/habits.js';
+import triageRoute from './routes/triage.js';
 
 const app = new Hono().basePath('/v1');
 
@@ -21,6 +22,7 @@ app.route('/users', users);
 app.route('/themes', themes);
 app.route('/tasks', tasksRoute);
 app.route('/habits', habitsRoute);
+app.route('/tasks', triageRoute);
 
 const port = Number(process.env['PORT'] ?? 3000);
 serve({ fetch: app.fetch, port }, () => {

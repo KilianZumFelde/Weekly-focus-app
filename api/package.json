@@ -13,9 +13,9 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx src/db/migrate.ts",
     "db:seed": "tsx src/db/seed.ts",
-    "test": "jest",
-    "test:unit": "jest tests/unit",
-    "test:integration": "jest tests/integration",
+    "test": "jest --config jest.config.cjs",
+    "test:unit": "jest --config jest.config.cjs tests/unit",
+    "test:integration": "jest --config jest.config.cjs tests/integration",
     "jobs:run": "tsx src/jobs/run.ts",
     "lint": "eslint src --ext .ts",
     "format": "prettier --write src"
