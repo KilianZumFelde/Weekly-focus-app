@@ -29,7 +29,7 @@ declare module 'expo-speech-recognition' {
 
   export const ExpoSpeechRecognitionModule: {
     requestPermissionsAsync(): Promise<{ granted: boolean }>;
-    start(options: { lang: string; interimResults: boolean }): void;
+    start(options: { lang: string; interimResults: boolean; continuous?: boolean }): void;
     stop(): void;
   };
 }

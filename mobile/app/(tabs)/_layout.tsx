@@ -26,6 +26,7 @@ export default function TabsLayout() {
   const [draftItems, setDraftItems] = useState<DraftItem[]>([]);
   const [themes, setThemes] = useState<Theme[]>([]);
   const [partialTranscript, setPartialTranscript] = useState('');
+  const [speechDetected, setSpeechDetected] = useState(false);
   const [undoLabel, setUndoLabel] = useState('');
   const [undoCallback, setUndoCallback] = useState<(() => void) | null>(null);
   const [showUndo, setShowUndo] = useState(false);
@@ -46,12 +47,14 @@ export default function TabsLayout() {
 
   useSpeechRecognitionEvent('start', () => {
     resultReceivedRef.current = false;
+    setSpeechDetected(false);
   });
 
   useSpeechRecognitionEvent('result', event => {
     const transcript = event.results[0]?.transcript ?? '';
 
     if (!event.isFinal) {
+      setSpeechDetected(true);
       setPartialTranscript(transcript);
       if (CANCEL_PHRASES.test(transcript)) {
         ExpoSpeechRecognitionModule.stop();
@@ -62,6 +65,7 @@ export default function TabsLayout() {
     }
 
     resultReceivedRef.current = true;
+    setSpeechDetected(false);
     setPartialTranscript('');
 
     if (!transcript.trim()) {
@@ -137,7 +141,7 @@ export default function TabsLayout() {
       return;
     }
     _setCaptureState('recording');
-    ExpoSpeechRecognitionModule.start({ lang: 'en-US', interimResults: true });
+    ExpoSpeechRecognitionModule.start({ lang: 'en-US', interimResults: true, continuous: true });
   };
 
   const handleStopRecording = () => {
@@ -257,6 +261,7 @@ export default function TabsLayout() {
         <RecordingSheet
           state={captureState}
           transcript={partialTranscript}
+          speechDetected={speechDetected}
         />
       )}
 
